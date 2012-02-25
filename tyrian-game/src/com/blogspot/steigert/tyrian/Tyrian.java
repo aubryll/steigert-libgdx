@@ -79,7 +79,6 @@ public class Tyrian
     {
         Gdx.app.log( Tyrian.LOG, "Creating game" );
         fpsLogger = new FPSLogger();
-        setScreen( getSplashScreen() );
     }
 
     @Override
@@ -89,6 +88,11 @@ public class Tyrian
     {
         super.resize( width, height );
         Gdx.app.log( Tyrian.LOG, "Resizing game to: " + width + " x " + height );
+
+        // show the splash screen when the game is resized for the first time
+        if( getScreen() == null ) {
+            setScreen( getSplashScreen() );
+        }
     }
 
     @Override
