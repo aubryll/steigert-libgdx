@@ -77,7 +77,7 @@ public class SplashScreen
         } );
         splashImage.action( actions );
 
-        // and finally we add the actors to the stage, on the correct order
+        // and finally we add the actor to the stage
         stage.addActor( splashImage );
     }
 
