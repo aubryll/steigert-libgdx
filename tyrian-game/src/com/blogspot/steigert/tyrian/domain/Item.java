@@ -6,12 +6,12 @@ package com.blogspot.steigert.tyrian.domain;
 public interface Item
 {
     /**
-     * Retrieves the name of the item.
+     * Retrieves the name of this item.
      */
     String getName();
 
     /**
-     * Retrieves the price of the item.
+     * Retrieves the price to acquire this item.
      */
     int getPrice();
 }

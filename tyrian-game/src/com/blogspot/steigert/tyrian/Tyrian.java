@@ -89,7 +89,8 @@ public class Tyrian
         super.resize( width, height );
         Gdx.app.log( Tyrian.LOG, "Resizing game to: " + width + " x " + height );
 
-        // show the splash screen when the game is resized for the first time
+        // show the splash screen when the game is resized for the first time;
+        // this approach avoids calling the screen's resize method repeatedly
         if( getScreen() == null ) {
             setScreen( getSplashScreen() );
         }

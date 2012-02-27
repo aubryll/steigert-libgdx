@@ -1,10 +1,15 @@
 package com.blogspot.steigert.tyrian.domain;
 
+/**
+ * The available shots.
+ */
 public enum Shot
 {
     BULLET( 1 ),
     MISSILE( 2 ),
-    FIREBALL( 3 );
+    FIREBALL( 3 ),
+    PROTON( 4 ),
+    WAVE( 5 );
 
     private final int damage;
 
@@ -14,6 +19,9 @@ public enum Shot
         this.damage = damage;
     }
 
+    /**
+     * Retrieves the damage caused by this shot.
+     */
     public int getDamage()
     {
         return damage;

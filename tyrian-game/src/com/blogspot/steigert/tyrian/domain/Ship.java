@@ -1,5 +1,8 @@
 package com.blogspot.steigert.tyrian.domain;
 
+/**
+ * A ship configuration.
+ */
 public class Ship
 {
     private ShipModel shipModel;
@@ -25,6 +28,9 @@ public class Ship
         return shield;
     }
 
+    /**
+     * Checks whether the ship contains the given item.
+     */
     public boolean contains(
         Item item )
     {
@@ -32,6 +38,11 @@ public class Ship
         return ( item.equals( shipModel ) || item.equals( frontGun ) || item.equals( shield ) );
     }
 
+    /**
+     * Installs the given item on the ship.
+     * <p>
+     * No credit verification is done here.
+     */
     public void install(
         Item item )
     {
