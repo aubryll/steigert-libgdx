@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.FadeOut;
 import com.badlogic.gdx.scenes.scene2d.actions.Sequence;
 import com.badlogic.gdx.scenes.scene2d.ui.Align;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Image.Scaling;
+import com.badlogic.gdx.utils.Scaling;
 import com.blogspot.steigert.tyrian.Tyrian;
 
 /**
@@ -47,9 +47,6 @@ public class SplashScreen
         int height )
     {
         super.resize( width, height );
-
-        // let's make sure the stage is clear
-        stage.clear();
 
         // in the image atlas, our splash image begins at (0,0) of the
         // upper-left corner and has a dimension of 512x301

@@ -77,7 +77,7 @@ public class Tyrian
     @Override
     public void create()
     {
-        Gdx.app.log( Tyrian.LOG, "Creating game" );
+        Gdx.app.log( Tyrian.LOG, "Creating game on " + Gdx.app.getType() );
         fpsLogger = new FPSLogger();
     }
 

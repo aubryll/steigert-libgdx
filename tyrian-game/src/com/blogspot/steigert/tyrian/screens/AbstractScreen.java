@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.blogspot.steigert.tyrian.Tyrian;
 
 /**
@@ -16,16 +17,16 @@ public abstract class AbstractScreen
         Screen
 {
     protected final Tyrian game;
-    protected final BitmapFont font;
-    protected final SpriteBatch batch;
     protected final Stage stage;
+
+    private BitmapFont font;
+    private SpriteBatch batch;
+    private Skin skin;
 
     public AbstractScreen(
         Tyrian game )
     {
         this.game = game;
-        this.font = new BitmapFont();
-        this.batch = new SpriteBatch();
         this.stage = new Stage( 0, 0, true );
     }
 
@@ -34,12 +35,39 @@ public abstract class AbstractScreen
         return getClass().getSimpleName();
     }
 
+    public BitmapFont getFont()
+    {
+        if( font == null ) {
+            font = new BitmapFont();
+        }
+        return font;
+    }
+
+    public SpriteBatch getBatch()
+    {
+        if( batch == null ) {
+            batch = new SpriteBatch();
+        }
+        return batch;
+    }
+
+    protected Skin getSkin()
+    {
+        if( skin == null ) {
+            skin = new Skin( Gdx.files.internal( "uiskin.json" ), Gdx.files.internal( "uiskin.png" ) );
+        }
+        return skin;
+    }
+
     // Screen implementation
 
     @Override
     public void show()
     {
         Gdx.app.log( Tyrian.LOG, "Showing screen: " + getName() );
+
+        // set the input processor
+        Gdx.input.setInputProcessor( stage );
     }
 
     @Override
@@ -49,20 +77,27 @@ public abstract class AbstractScreen
     {
         Gdx.app.log( Tyrian.LOG, "Resizing screen: " + getName() + " to: " + width + " x " + height );
 
-        // resize the stage
+        // resize and clear the stage
         stage.setViewport( width, height, true );
+        stage.clear();
     }
 
     @Override
     public void render(
         float delta )
     {
-        // the following code clears the screen with the given RGB color (black)
+        // (1) process the game logic
+
+        // update the actors
+        stage.act( delta );
+
+        // (2) draw the result
+
+        // clear the screen with the given RGB color (black)
         Gdx.gl.glClearColor( 0f, 0f, 0f, 1f );
         Gdx.gl.glClear( GL20.GL_COLOR_BUFFER_BIT );
 
-        // update and draw the stage actors
-        stage.act( delta );
+        // draw the actors
         stage.draw();
     }
 
@@ -70,6 +105,9 @@ public abstract class AbstractScreen
     public void hide()
     {
         Gdx.app.log( Tyrian.LOG, "Hiding screen: " + getName() );
+
+        // dispose the resources by default
+        dispose();
     }
 
     @Override
@@ -88,10 +126,9 @@ public abstract class AbstractScreen
     public void dispose()
     {
         Gdx.app.log( Tyrian.LOG, "Disposing screen: " + getName() );
-
-        // dispose the collaborators
         stage.dispose();
-        batch.dispose();
-        font.dispose();
+        if( font != null ) font.dispose();
+        if( batch != null ) batch.dispose();
+        if( skin != null ) skin.dispose();
     }
 }
