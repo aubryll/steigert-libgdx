@@ -2,6 +2,7 @@ package com.blogspot.steigert.tyrian.screens;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.blogspot.steigert.tyrian.Tyrian;
 
@@ -28,9 +29,14 @@ public class MenuScreen
         int height )
     {
         super.resize( width, height );
-
         final float buttonX = ( width - BUTTON_WIDTH ) / 2;
         float currentY = 280f;
+
+        // label "welcome"
+        Label welcomeLabel = new Label( "Welcome to Tyrian for Android!", getSkin() );
+        welcomeLabel.x = ( width / 2 );
+        welcomeLabel.y = ( currentY + 100 );
+        stage.addActor( welcomeLabel );
 
         // button "start game"
         TextButton startGameButton = new TextButton( "Start game", getSkin() );
