@@ -12,6 +12,7 @@ import com.blogspot.steigert.tyrian.screens.OptionsScreen;
 import com.blogspot.steigert.tyrian.screens.ProfileScreen;
 import com.blogspot.steigert.tyrian.screens.SplashScreen;
 import com.blogspot.steigert.tyrian.screens.StartGameScreen;
+import com.blogspot.steigert.tyrian.services.ProfileService;
 
 /**
  * The game's main class, called as application events are fired.
@@ -26,8 +27,19 @@ public class Tyrian
     // a libgdx helper class that logs the current FPS each second
     private FPSLogger fpsLogger;
 
+    // services
+    private final ProfileService profileService;
+
     public Tyrian()
     {
+        profileService = new ProfileService();
+    }
+
+    // Services
+
+    public ProfileService getProfileService()
+    {
+        return profileService;
     }
 
     // Screen methods
@@ -79,6 +91,7 @@ public class Tyrian
     {
         Gdx.app.log( Tyrian.LOG, "Creating game on " + Gdx.app.getType() );
         fpsLogger = new FPSLogger();
+        profileService.retrieveProfile();
     }
 
     @Override

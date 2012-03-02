@@ -1,8 +1,11 @@
-Post 4
- - Updated libgdx to the latest version (http://libgdx.badlogicgames.com/nightlies/libgdx-nightly-latest.zip)
- - Added some skin resources to the assets folder
- - AbstractScreen#show() calls Gdx.input.setInputProcessor(stage)
- - AbstractScreen#hide() calls dispose() and collaborators are lazily created
+Post 5
+ - Files Module
+ - ProfileService
+ - Data file encryption
+ - 
+ - 
+ - 
+ - 
  - 
  - 
  - 

@@ -22,6 +22,7 @@ public class SplashScreen
         AbstractScreen
 {
     private Texture splashTexture;
+    private Image splashImage;
 
     public SplashScreen(
         Tyrian game )
@@ -35,7 +36,7 @@ public class SplashScreen
         super.show();
 
         // load the texture with the splash image
-        splashTexture = new Texture( "splash.png" );
+        splashTexture = new Texture( "image-atlases/splash.png" );
 
         // set the linear texture filter to improve the image stretching
         splashTexture.setFilter( TextureFilter.Linear, TextureFilter.Linear );
@@ -53,7 +54,7 @@ public class SplashScreen
         TextureRegion splashRegion = new TextureRegion( splashTexture, 0, 0, 512, 301 );
 
         // here we create the splash image actor and set its size
-        Image splashImage = new Image( splashRegion, Scaling.stretch, Align.BOTTOM | Align.LEFT );
+        splashImage = new Image( splashRegion, Scaling.stretch, Align.BOTTOM | Align.LEFT );
         splashImage.width = width;
         splashImage.height = height;
 

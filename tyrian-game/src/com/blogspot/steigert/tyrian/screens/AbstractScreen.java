@@ -2,6 +2,7 @@ package com.blogspot.steigert.tyrian.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -54,7 +55,9 @@ public abstract class AbstractScreen
     protected Skin getSkin()
     {
         if( skin == null ) {
-            skin = new Skin( Gdx.files.internal( "uiskin.json" ), Gdx.files.internal( "uiskin.png" ) );
+            FileHandle skinFile = Gdx.files.internal( "skin/uiskin.json" );
+            FileHandle textureFile = Gdx.files.internal( "skin/uiskin.png" );
+            skin = new Skin( skinFile, textureFile );
         }
         return skin;
     }
