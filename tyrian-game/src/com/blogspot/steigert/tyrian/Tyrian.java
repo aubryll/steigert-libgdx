@@ -92,7 +92,7 @@ public class Tyrian
         // show the splash screen when the game is resized for the first time;
         // this approach avoids calling the screen's resize method repeatedly
         if( getScreen() == null ) {
-            setScreen( getMenuScreen() );
+            setScreen( getSplashScreen() );
         }
     }
 

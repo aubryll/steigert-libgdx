@@ -1,23 +1,19 @@
 package com.blogspot.steigert.tyrian.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.TableLayout;
 import com.blogspot.steigert.tyrian.Tyrian;
 
-/**
- * For now the menu screen just writes a message on the center of the screen.
- */
 public class MenuScreen
     extends
         AbstractScreen
 {
-    // setup the dimensions of the menu buttons
-    private static final float BUTTON_WIDTH = 300f;
-    private static final float BUTTON_HEIGHT = 60f;
-    private static final float BUTTON_SPACING = 10f;
-
     public MenuScreen(
         Tyrian game )
     {
@@ -30,17 +26,25 @@ public class MenuScreen
         int height )
     {
         super.resize( width, height );
-        final float buttonX = ( width - BUTTON_WIDTH ) / 2;
-        float currentY = 280f;
 
-        // label "welcome"
-        Label welcomeLabel = new Label( "Welcome to Tyrian for Android!", getSkin() );
-        welcomeLabel.x = ( ( width - welcomeLabel.width ) / 2 );
-        welcomeLabel.y = ( currentY + 100 );
-        stage.addActor( welcomeLabel );
+        // retrieve the skin (created on the AbstractScreen class)
+        Skin skin = super.getSkin();
 
-        // button "start game"
-        TextButton startGameButton = new TextButton( "Start game", getSkin() );
+        // create the table actor
+        Table table = new Table( getSkin() );
+        table.width = width;
+        table.height = height;
+
+        // add the table to the stage and retrieve its layout
+        stage.addActor( table );
+        TableLayout layout = table.getTableLayout();
+
+        // register the label "welcome"
+        Label welcomeLabel = new Label( "Welcome to Tyrian for Android!", skin );
+        layout.register( "welcomeMessage", welcomeLabel );
+
+        // register the button "start game"
+        TextButton startGameButton = new TextButton( "Start game", skin );
         startGameButton.setClickListener( new ClickListener() {
             @Override
             public void click(
@@ -51,14 +55,10 @@ public class MenuScreen
                 game.setScreen( game.getStartGameScreen() );
             }
         } );
-        startGameButton.x = buttonX;
-        startGameButton.y = currentY;
-        startGameButton.width = BUTTON_WIDTH;
-        startGameButton.height = BUTTON_HEIGHT;
-        stage.addActor( startGameButton );
+        layout.register( "startGameButton", startGameButton );
 
-        // button "options"
-        TextButton optionsButton = new TextButton( "Options", getSkin() );
+        // register the button "options"
+        TextButton optionsButton = new TextButton( "Options", skin );
         optionsButton.setClickListener( new ClickListener() {
             @Override
             public void click(
@@ -69,14 +69,10 @@ public class MenuScreen
                 game.setScreen( game.getOptionsScreen() );
             }
         } );
-        optionsButton.x = buttonX;
-        optionsButton.y = ( currentY -= BUTTON_HEIGHT + BUTTON_SPACING );
-        optionsButton.width = BUTTON_WIDTH;
-        optionsButton.height = BUTTON_HEIGHT;
-        stage.addActor( optionsButton );
+        layout.register( "optionsButton", optionsButton );
 
-        // button "hall of fame"
-        TextButton hallOfFameButton = new TextButton( "Hall of Fame", getSkin() );
+        // register the button "hall of fame"
+        TextButton hallOfFameButton = new TextButton( "Hall of Fame", skin );
         hallOfFameButton.setClickListener( new ClickListener() {
             @Override
             public void click(
@@ -87,10 +83,9 @@ public class MenuScreen
                 game.setScreen( game.getHallOfFameScreen() );
             }
         } );
-        hallOfFameButton.x = buttonX;
-        hallOfFameButton.y = ( currentY -= BUTTON_HEIGHT + BUTTON_SPACING );
-        hallOfFameButton.width = BUTTON_WIDTH;
-        hallOfFameButton.height = BUTTON_HEIGHT;
-        stage.addActor( hallOfFameButton );
+        layout.register( "hallOfFameButton", hallOfFameButton );
+
+        // finally, parse the layout descriptor
+        layout.parse( Gdx.files.internal( "layout-descriptors/menu-screen.txt" ).readString() );
     }
 }
