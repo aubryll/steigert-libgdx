@@ -40,23 +40,14 @@ public class SplashScreen
 
         // set the linear texture filter to improve the image stretching
         splashTexture.setFilter( TextureFilter.Linear, TextureFilter.Linear );
-    }
-
-    @Override
-    public void resize(
-        int width,
-        int height )
-    {
-        super.resize( width, height );
 
         // in the image atlas, our splash image begins at (0,0) of the
         // upper-left corner and has a dimension of 512x301
         TextureRegion splashRegion = new TextureRegion( splashTexture, 0, 0, 512, 301 );
 
-        // here we create the splash image actor and set its size
+        // here we create the splash image actor; its size is set when the
+        // resize() method gets called
         splashImage = new Image( splashRegion, Scaling.stretch, Align.BOTTOM | Align.LEFT );
-        splashImage.width = width;
-        splashImage.height = height;
 
         // this is needed for the fade-in effect to work correctly; we're just
         // making the image completely transparent
@@ -77,6 +68,21 @@ public class SplashScreen
 
         // and finally we add the actor to the stage
         stage.addActor( splashImage );
+    }
+
+    @Override
+    public void resize(
+        int width,
+        int height )
+    {
+        super.resize( width, height );
+
+        // resize the splash image
+        splashImage.width = width;
+        splashImage.height = height;
+
+        // we need a complete redraw
+        splashImage.invalidateHierarchy();
     }
 
     @Override

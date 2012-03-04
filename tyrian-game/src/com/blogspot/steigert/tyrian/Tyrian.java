@@ -4,7 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.blogspot.steigert.tyrian.screens.HallOfFameScreen;
+import com.blogspot.steigert.tyrian.screens.HighScoresScreen;
 import com.blogspot.steigert.tyrian.screens.LevelScreen;
 import com.blogspot.steigert.tyrian.screens.LoadSavedGameScreen;
 import com.blogspot.steigert.tyrian.screens.MenuScreen;
@@ -49,9 +49,9 @@ public class Tyrian
         return new SplashScreen( this );
     }
 
-    public HallOfFameScreen getHallOfFameScreen()
+    public HighScoresScreen getHighScoresScreen()
     {
-        return new HallOfFameScreen( this );
+        return new HighScoresScreen( this );
     }
 
     public LevelScreen getLevelScreen()
@@ -105,7 +105,7 @@ public class Tyrian
         // show the splash screen when the game is resized for the first time;
         // this approach avoids calling the screen's resize method repeatedly
         if( getScreen() == null ) {
-            setScreen( getSplashScreen() );
+            setScreen( getMenuScreen() );
         }
     }
 

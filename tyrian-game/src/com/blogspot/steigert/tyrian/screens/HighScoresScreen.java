@@ -3,19 +3,21 @@ package com.blogspot.steigert.tyrian.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.TableLayout;
 import com.blogspot.steigert.tyrian.Tyrian;
+import com.blogspot.steigert.tyrian.domain.Profile;
 
-public class MenuScreen
+public class HighScoresScreen
     extends
         AbstractScreen
 {
     private Table table;
 
-    public MenuScreen(
+    public HighScoresScreen(
         Tyrian game )
     {
         super( game );
@@ -35,51 +37,37 @@ public class MenuScreen
 
         // retrieve the table's layout
         TableLayout layout = table.getTableLayout();
+        Profile profile = game.getProfileService().retrieveProfile();
+
+        // create the labels widgets
+        String level1Highscore = String.valueOf( profile.getHighScore( 0 ) );
+        Label episode1HighScore = new Label( level1Highscore, skin );
+        layout.register( "episode1HighScore", episode1HighScore );
+
+        String level2Highscore = String.valueOf( profile.getHighScore( 1 ) );
+        Label episode2HighScore = new Label( level2Highscore, skin );
+        layout.register( "episode2HighScore", episode2HighScore );
+
+        String level3Highscore = String.valueOf( profile.getHighScore( 2 ) );
+        Label episode3HighScore = new Label( level3Highscore, skin );
+        layout.register( "episode3HighScore", episode3HighScore );
 
         // register the button "start game"
-        TextButton startGameButton = new TextButton( "Start game", skin );
-        startGameButton.setClickListener( new ClickListener() {
+        TextButton backButton = new TextButton( "Back to main menu", skin );
+        backButton.setClickListener( new ClickListener() {
             @Override
             public void click(
                 Actor actor,
                 float x,
                 float y )
             {
-                game.setScreen( game.getStartGameScreen() );
+                game.setScreen( game.getMenuScreen() );
             }
         } );
-        layout.register( "startGameButton", startGameButton );
-
-        // register the button "options"
-        TextButton optionsButton = new TextButton( "Options", skin );
-        optionsButton.setClickListener( new ClickListener() {
-            @Override
-            public void click(
-                Actor actor,
-                float x,
-                float y )
-            {
-                game.setScreen( game.getOptionsScreen() );
-            }
-        } );
-        layout.register( "optionsButton", optionsButton );
-
-        // register the button "high scores"
-        TextButton highScoresButton = new TextButton( "High Scores", skin );
-        highScoresButton.setClickListener( new ClickListener() {
-            @Override
-            public void click(
-                Actor actor,
-                float x,
-                float y )
-            {
-                game.setScreen( game.getHighScoresScreen() );
-            }
-        } );
-        layout.register( "highScoresButton", highScoresButton );
+        layout.register( "backButton", backButton );
 
         // finally, parse the layout descriptor
-        layout.parse( Gdx.files.internal( "layout-descriptors/menu-screen.txt" ).readString() );
+        layout.parse( Gdx.files.internal( "layout-descriptors/high-scores-screen.txt" ).readString() );
     }
 
     @Override

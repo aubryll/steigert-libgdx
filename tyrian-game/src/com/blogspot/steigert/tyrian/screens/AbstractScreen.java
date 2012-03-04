@@ -69,7 +69,7 @@ public abstract class AbstractScreen
     {
         Gdx.app.log( Tyrian.LOG, "Showing screen: " + getName() );
 
-        // set the input processor
+        // set the stage as the input processor
         Gdx.input.setInputProcessor( stage );
     }
 
@@ -80,9 +80,8 @@ public abstract class AbstractScreen
     {
         Gdx.app.log( Tyrian.LOG, "Resizing screen: " + getName() + " to: " + width + " x " + height );
 
-        // resize and clear the stage
+        // resize the stage
         stage.setViewport( width, height, true );
-        stage.clear();
     }
 
     @Override

@@ -87,7 +87,9 @@ public class ProfileService
     }
 
     /**
-     * Persists the player's profile, if any.
+     * Persists the player's profile.
+     * <p>
+     * If no profile is available, this method does nothing.
      */
     public void persist()
     {

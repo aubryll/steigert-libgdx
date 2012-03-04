@@ -16,15 +16,15 @@ public class Profile
 {
     private int currentLevelId;
     private int credits;
-    private Map<Integer,Integer> levelsHighScores;
+    private Map<Integer,Integer> highScores;
     private Ship ship;
 
     public Profile()
     {
-        levelsHighScores = new HashMap<Integer,Integer>();
-        levelsHighScores.put( 0, 1000 );
-        levelsHighScores.put( 1, 2400 );
-        levelsHighScores.put( 2, 5200 );
+        highScores = new HashMap<Integer,Integer>();
+        highScores.put( 0, 1000 );
+        highScores.put( 1, 2400 );
+        highScores.put( 2, 5200 );
     }
 
     /**
@@ -38,9 +38,20 @@ public class Profile
     /**
      * Retrieves the high scores for each level (Level-ID -> High score).
      */
-    public Map<Integer,Integer> getLevelsHighScores()
+    public Map<Integer,Integer> getHighScores()
     {
-        return levelsHighScores;
+        return highScores;
+    }
+
+    /**
+     * Gets the current high score for the given level.
+     */
+    public int getHighScore(
+        int levelId )
+    {
+        if( highScores == null ) return 0;
+        Integer highScore = highScores.get( levelId );
+        return ( highScore == null ? 0 : highScore );
     }
 
     /**
@@ -96,7 +107,16 @@ public class Profile
     {
         currentLevelId = json.readValue( "currentLevelId", Integer.class, jsonData );
         credits = json.readValue( "credits", Integer.class, jsonData );
-        levelsHighScores = json.readValue( "levelsHighScores", HashMap.class, jsonData );
+
+        // libgdx handles the keys of JSON formatted HashMaps as Strings, but we
+        // want it to be an integer instead (levelId)
+        Map<String,Integer> highScores = json.readValue( "highScores", HashMap.class,
+            Integer.class, jsonData );
+        for( String levelIdAsString : highScores.keySet() ) {
+            int levelId = Integer.valueOf( levelIdAsString );
+            Integer highScore = highScores.get( levelId );
+            this.highScores.put( levelId, highScore );
+        }
     }
 
     @Override
@@ -105,6 +125,6 @@ public class Profile
     {
         json.writeValue( "currentLevelId", currentLevelId );
         json.writeValue( "credits", credits );
-        json.writeValue( "levelsHighScores", levelsHighScores );
+        json.writeValue( "highScores", highScores );
     }
 }
