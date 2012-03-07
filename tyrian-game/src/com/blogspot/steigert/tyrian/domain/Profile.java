@@ -22,9 +22,6 @@ public class Profile
     public Profile()
     {
         highScores = new HashMap<Integer,Integer>();
-        highScores.put( 0, 1000 );
-        highScores.put( 1, 2400 );
-        highScores.put( 2, 5200 );
     }
 
     /**
@@ -52,6 +49,21 @@ public class Profile
         if( highScores == null ) return 0;
         Integer highScore = highScores.get( levelId );
         return ( highScore == null ? 0 : highScore );
+    }
+
+    /**
+     * Notifies the score on the given level. Returns <code>true</code> if its a
+     * high score.
+     */
+    public boolean notifyScore(
+        int levelId,
+        int score )
+    {
+        if( score > getHighScore( levelId ) ) {
+            highScores.put( levelId, score );
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -114,7 +126,7 @@ public class Profile
             Integer.class, jsonData );
         for( String levelIdAsString : highScores.keySet() ) {
             int levelId = Integer.valueOf( levelIdAsString );
-            Integer highScore = highScores.get( levelId );
+            Integer highScore = highScores.get( levelIdAsString );
             this.highScores.put( levelId, highScore );
         }
     }

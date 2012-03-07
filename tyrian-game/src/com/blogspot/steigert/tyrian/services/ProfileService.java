@@ -2,8 +2,8 @@ package com.blogspot.steigert.tyrian.services;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Base64Coder;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.SerializationException;
 import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.domain.Profile;
 
@@ -18,6 +18,9 @@ public class ProfileService
     // the loaded profile (may be null)
     private Profile profile;
 
+    /**
+     * Creates the profile service.
+     */
     public ProfileService()
     {
     }
@@ -43,13 +46,23 @@ public class ProfileService
 
             // load the profile from the data file
             try {
-                profile = json.fromJson( Profile.class, profileDataFile );
-            } catch( SerializationException e ) {
+
+                // read the file as text
+                String profileAsCode = profileDataFile.readString();
+
+                // decode the contents
+                String profileAsText = Base64Coder.decodeString( profileAsCode );
+
+                // restore the state
+                profile = json.fromJson( Profile.class, profileAsText );
+
+            } catch( Exception e ) {
 
                 // log the exception
                 Gdx.app.error( Tyrian.LOG, "Unable to parse existing profile data file", e );
 
-                // recover from the exception by using a new profile data file
+                // recover by creating a fresh new profile data file;
+                // note that the player will lose all game progress
                 profile = new Profile();
                 persist( profile );
 
@@ -82,8 +95,11 @@ public class ProfileService
         // convert the given profile to text
         String profileAsText = json.toJson( profile );
 
+        // encode the text
+        String profileAsCode = Base64Coder.encodeString( profileAsText );
+
         // write the profile data file
-        profileDataFile.writeString( profileAsText, false );
+        profileDataFile.writeString( profileAsCode, false );
     }
 
     /**

@@ -1,5 +1,4 @@
 Post 5
- - AbstractScreen's show/resize responsibilities
  - High Scores screen
    - Files Module
    - ProfileService
