@@ -1,5 +1,7 @@
 package com.blogspot.steigert.tyrian.domain;
 
+import java.util.Locale;
+
 /**
  * A shield for the ship.
  */
@@ -9,8 +11,8 @@ public enum Shield
 {
     SIF( "Structural Integrity Field", 100, 1 ),
     AIF( "Advanced Integrity Field", 250, 2 ),
-    GLES( "Gencore Low Energy Shield", 500, 3 ),
-    GHEF( "Gencore High Energy Shield", 1000, 4 ),
+    GLES( "Gencore LE Shield", 500, 3 ),
+    GHEF( "Gencore HE Shield", 1000, 4 ),
     MLXS( "MicroCorp LXS Class A", 2000, 5 );
 
     private final String name;
@@ -45,5 +47,11 @@ public enum Shield
     public int getArmor()
     {
         return armor;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format( Locale.US, "%s ($%d) - Armor: %d", name, price, armor );
     }
 }

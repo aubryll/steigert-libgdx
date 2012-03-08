@@ -1,5 +1,7 @@
 package com.blogspot.steigert.tyrian.domain;
 
+import java.util.Locale;
+
 /**
  * The available ship's front-guns.
  */
@@ -43,5 +45,12 @@ public enum FrontGun
     public Shot getShot()
     {
         return shot;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format( Locale.US, "%s ($%d) - Damage: %s", name, price,
+            shot.getDamage() );
     }
 }

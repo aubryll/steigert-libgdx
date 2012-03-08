@@ -1,5 +1,7 @@
 package com.blogspot.steigert.tyrian.domain;
 
+import java.util.Locale;
+
 /**
  * The available ship's models.
  */
@@ -45,5 +47,11 @@ public enum ShipModel
     public int getFiringCapacity()
     {
         return firingCapacity;
+    }
+
+    @Override
+    public String toString()
+    {
+        return String.format( Locale.US, "%s ($%d) - Firing: %d", name, price, firingCapacity );
     }
 }
