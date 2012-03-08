@@ -27,15 +27,22 @@ public class Tyrian
     // a libgdx helper class that logs the current FPS each second
     private FPSLogger fpsLogger;
 
-    // services
+    // collaborators
+    private final TyrianPreferences preferences;
     private final ProfileService profileService;
 
     public Tyrian()
     {
+        preferences = new TyrianPreferences();
         profileService = new ProfileService();
     }
 
-    // Services
+    // Collaborators
+
+    public TyrianPreferences getPreferences()
+    {
+        return preferences;
+    }
 
     public ProfileService getProfileService()
     {

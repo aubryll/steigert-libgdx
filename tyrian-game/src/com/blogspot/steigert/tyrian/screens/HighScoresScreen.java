@@ -11,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.TableLayout;
 import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.domain.Profile;
 
+/**
+ * A simple high scores screen.
+ */
 public class HighScoresScreen
     extends
         AbstractScreen
@@ -52,7 +55,7 @@ public class HighScoresScreen
         Label episode3HighScore = new Label( level3Highscore, skin );
         layout.register( "episode3HighScore", episode3HighScore );
 
-        // register the button "start game"
+        // register the back button
         TextButton backButton = new TextButton( "Back to main menu", skin );
         backButton.setClickListener( new ClickListener() {
             @Override

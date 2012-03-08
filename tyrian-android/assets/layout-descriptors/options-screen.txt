@@ -1,0 +1,16 @@
+debug
+* padding:8
+---
+'Options' colspan:3 spacingBottom:20
+---
+'Sound Effects'
+[soundEffectsCheckbox] colspan:2 align:left
+---
+'Music'
+[musicCheckbox] colspan:2 align:left
+---
+'Volume'
+[volumeSlider] fill:x
+[volumeValue] width:40
+---
+[backButton] colspan:3 width:300 height:60 spacingTop:30
