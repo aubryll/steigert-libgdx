@@ -24,6 +24,9 @@ public class Tyrian
     // constant useful for logging
     public static final String LOG = Tyrian.class.getSimpleName();
 
+    // whether we are in development mode
+    public static final boolean DEV_MODE = true;
+
     // a libgdx helper class that logs the current FPS each second
     private FPSLogger fpsLogger;
 
@@ -112,7 +115,7 @@ public class Tyrian
         // show the splash screen when the game is resized for the first time;
         // this approach avoids calling the screen's resize method repeatedly
         if( getScreen() == null ) {
-            setScreen( getSplashScreen() );
+            setScreen( getStartGameScreen() );
         }
     }
 
@@ -122,7 +125,7 @@ public class Tyrian
         super.render();
 
         // output the current FPS
-        fpsLogger.log();
+        if( DEV_MODE && false ) fpsLogger.log();
     }
 
     @Override
@@ -130,6 +133,10 @@ public class Tyrian
     {
         super.pause();
         Gdx.app.log( Tyrian.LOG, "Pausing game" );
+
+        // persist the profile, because we don't know if the player will come
+        // back to the game
+        profileService.persist();
     }
 
     @Override

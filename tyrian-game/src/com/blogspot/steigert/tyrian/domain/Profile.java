@@ -3,9 +3,11 @@ package com.blogspot.steigert.tyrian.domain;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
 import com.badlogic.gdx.utils.OrderedMap;
+import com.blogspot.steigert.tyrian.Tyrian;
 
 /**
  * The player's profile.
@@ -21,7 +23,12 @@ public class Profile
 
     public Profile()
     {
+        credits = 1000;
         highScores = new HashMap<Integer,Integer>();
+        ship = new Ship();
+        ship.install( ShipModel.USP_TALON );
+        ship.install( FrontGun.PULSE_CANNON );
+        ship.install( Shield.SIF );
     }
 
     /**
@@ -100,12 +107,18 @@ public class Profile
     /**
      * Buys the given item.
      */
-    public void buy(
+    public boolean buy(
         Item item )
     {
         if( canBuy( item ) ) {
-            credits -= item.getPrice();
+            Gdx.app.log( Tyrian.LOG, "Buying item: " + item );
             ship.install( item );
+            credits -= item.getPrice();
+            Gdx.app.log( Tyrian.LOG, "Credits available: " + credits );
+            return true;
+        } else {
+            Gdx.app.log( Tyrian.LOG, "No credits to buy item: " + item );
+            return false;
         }
     }
 
@@ -138,5 +151,6 @@ public class Profile
         json.writeValue( "currentLevelId", currentLevelId );
         json.writeValue( "credits", credits );
         json.writeValue( "highScores", highScores );
+        json.writeValue( "ship", ship );
     }
 }

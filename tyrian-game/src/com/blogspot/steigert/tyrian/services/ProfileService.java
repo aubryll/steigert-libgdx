@@ -48,10 +48,13 @@ public class ProfileService
             try {
 
                 // read the file as text
-                String profileAsCode = profileDataFile.readString();
+                String profileAsText = profileDataFile.readString().trim();
 
-                // decode the contents
-                String profileAsText = Base64Coder.decodeString( profileAsCode );
+                // decode the contents (if it's base64 encoded)
+                if( profileAsText.matches( "^[A-Za-z0-9/+=]+$" ) ) {
+                    Gdx.app.log( Tyrian.LOG, "Persisted profile is base64 encoded" );
+                    profileAsText = Base64Coder.decodeString( profileAsText );
+                }
 
                 // restore the state
                 profile = json.fromJson( Profile.class, profileAsText );
@@ -96,10 +99,12 @@ public class ProfileService
         String profileAsText = json.toJson( profile );
 
         // encode the text
-        String profileAsCode = Base64Coder.encodeString( profileAsText );
+        if( ! Tyrian.DEV_MODE ) {
+            profileAsText = Base64Coder.encodeString( profileAsText );
+        }
 
         // write the profile data file
-        profileDataFile.writeString( profileAsCode, false );
+        profileDataFile.writeString( profileAsText, false );
     }
 
     /**

@@ -9,11 +9,11 @@ public enum Shield
     implements
         Item
 {
-    SIF( "Structural Integrity Field", 100, 1 ),
-    AIF( "Advanced Integrity Field", 250, 2 ),
+    SIF( "Structural Field", 100, 1 ),
+    AIF( "Advanced Field", 250, 2 ),
     GLES( "Gencore LE Shield", 500, 3 ),
     GHEF( "Gencore HE Shield", 1000, 4 ),
-    MLXS( "MicroCorp LXS Class A", 2000, 5 );
+    MLXS( "MicroCorp LXS-A", 2000, 5 );
 
     private final String name;
     private final int price;
