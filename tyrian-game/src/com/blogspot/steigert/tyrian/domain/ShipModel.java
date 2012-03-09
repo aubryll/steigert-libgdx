@@ -2,6 +2,8 @@ package com.blogspot.steigert.tyrian.domain;
 
 import java.util.Locale;
 
+import com.blogspot.steigert.tyrian.utils.TextUtils;
+
 /**
  * The available ship's models.
  */
@@ -10,10 +12,10 @@ public enum ShipModel
         Item
 {
     USP_TALON( "USP Talon", 6000, 1 ),
-    USP_FANG( "USP Fang", 8000, 2 ),
-    GENCORE_PHOENIX( "Gencore Phoenix", 12000, 3 ),
-    GENCORE_MAELSTROM( "Gencore Maelstrom", 15000, 4 ),
-    MICROSOL_STALKER( "Microsol Stalker", 20000, 5 );
+    GENCORE_PHOENIX( "Gencore Phoenix", 12000, 2 ),
+    GENCORE_II( "Gencore II", 17000, 3 ),
+    MICROSOL_STALKER( "Microsol Stalker", 20000, 4 ),
+    SUPER_CARROT( "Super Carrot", 50000, 5 );
 
     private final String name;
     private final int price;
@@ -39,6 +41,12 @@ public enum ShipModel
         return price;
     }
 
+    @Override
+    public String getPriceAsText()
+    {
+        return TextUtils.creditStyle( price );
+    }
+
     /**
      * Retrieves the firing capacity for this ship model.
      * <p>
@@ -52,6 +60,7 @@ public enum ShipModel
     @Override
     public String toString()
     {
-        return String.format( Locale.US, "%s ($%d) - Firing: %d", name, price, firingCapacity );
+        return String.format( Locale.US, "%s (%s) - Firing: %d", name, getPriceAsText(),
+            firingCapacity );
     }
 }

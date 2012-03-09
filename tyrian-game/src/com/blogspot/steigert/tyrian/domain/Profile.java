@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.Json.Serializable;
 import com.badlogic.gdx.utils.OrderedMap;
 import com.blogspot.steigert.tyrian.Tyrian;
+import com.blogspot.steigert.tyrian.utils.TextUtils;
 
 /**
  * The player's profile.
@@ -79,6 +80,14 @@ public class Profile
     public int getCredits()
     {
         return credits;
+    }
+
+    /**
+     * Retrieves the amount of credits as text.
+     */
+    public String getCreditsAsText()
+    {
+        return TextUtils.creditStyle( credits );
     }
 
     /**

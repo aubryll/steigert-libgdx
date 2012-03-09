@@ -94,8 +94,7 @@ public class StartGameScreen
         shieldModelSelectBox.setSelectionListener( itemSelectionListener );
         layout.register( "shieldModelSelectBox", shieldModelSelectBox );
 
-        String credits = String.valueOf( profile.getCredits() );
-        creditsLabel = new Label( credits, skin );
+        creditsLabel = new Label( profile.getCreditsAsText(), skin );
         layout.register( "creditsLabel", creditsLabel );
 
         // register the back button
@@ -192,8 +191,7 @@ public class StartGameScreen
 
             // try and buy the item or reset all select boxes
             if( profile.buy( selectedItem ) ) {
-                String credits = String.valueOf( profile.getCredits() );
-                creditsLabel.setText( credits );
+                creditsLabel.setText( profile.getCreditsAsText() );
             } else {
                 shipModelSelectBox.setSelection( ship.getShipModel().ordinal() );
                 frontGunSelectBox.setSelection( ship.getFrontGun().ordinal() );

@@ -2,6 +2,8 @@ package com.blogspot.steigert.tyrian.domain;
 
 import java.util.Locale;
 
+import com.blogspot.steigert.tyrian.utils.TextUtils;
+
 /**
  * A shield for the ship.
  */
@@ -39,6 +41,12 @@ public enum Shield
         return price;
     }
 
+    @Override
+    public String getPriceAsText()
+    {
+        return TextUtils.creditStyle( price );
+    }
+
     /**
      * Retrieves the armor level for this shield (1-5).
      * <p>
@@ -52,6 +60,6 @@ public enum Shield
     @Override
     public String toString()
     {
-        return String.format( Locale.US, "%s ($%d) - Armor: %d", name, price, armor );
+        return String.format( Locale.US, "%s (%s) - Armor: %d", name, getPriceAsText(), armor );
     }
 }

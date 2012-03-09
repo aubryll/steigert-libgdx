@@ -2,6 +2,8 @@ package com.blogspot.steigert.tyrian.domain;
 
 import java.util.Locale;
 
+import com.blogspot.steigert.tyrian.utils.TextUtils;
+
 /**
  * The available ship's front-guns.
  */
@@ -10,10 +12,10 @@ public enum FrontGun
         Item
 {
     PULSE_CANNON( "Pulse-Cannon", 500, Shot.BULLET ),
-    WAVE_CANNON( "Multi-Cannon", 750, Shot.WAVE ),
-    VULCAN_CANNON( "Vulcan Cannon", 600, Shot.FIREBALL ),
-    PROTRON_LAUNCHER( "Protron", 600, Shot.PROTON ),
-    MISSILE_LAUNCHER( "Missile Launcher", 850, Shot.MISSILE );
+    MISSILE_LAUNCHER( "Missile Launcher", 1000, Shot.MISSILE ),
+    VULCAN_CANNON( "Vulcan Cannon", 2000, Shot.FIREBALL ),
+    PROTRON_LAUNCHER( "Protron", 3500, Shot.PROTON ),
+    WAVE_CANNON( "Wave-Cannon", 5000, Shot.WAVE );
 
     private final String name;
     private final int price;
@@ -39,6 +41,12 @@ public enum FrontGun
         return price;
     }
 
+    @Override
+    public String getPriceAsText()
+    {
+        return TextUtils.creditStyle( price );
+    }
+
     /**
      * Retrieves the shot fired by this gun.
      */
@@ -50,7 +58,7 @@ public enum FrontGun
     @Override
     public String toString()
     {
-        return String.format( Locale.US, "%s ($%d) - Damage: %s", name, price,
+        return String.format( Locale.US, "%s (%s) - Damage: %s", name, getPriceAsText(),
             shot.getDamage() );
     }
 }

@@ -14,4 +14,9 @@ public interface Item
      * Retrieves the price to acquire this item.
      */
     int getPrice();
+
+    /**
+     * Retrieves the price as text.
+     */
+    String getPriceAsText();
 }
