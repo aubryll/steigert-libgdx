@@ -156,6 +156,8 @@ public class StartGameScreen
 
         // images
         shipModelImage.setRegion( getAtlas().findRegion( ship.getShipModel().getPreviewImage() ) );
+        frontGunImage.setRegion( getAtlas().findRegion( ship.getFrontGun().getPreviewImage() ) );
+        shieldImage.setRegion( getAtlas().findRegion( ship.getShield().getPreviewImage() ) );
     }
 
     /**

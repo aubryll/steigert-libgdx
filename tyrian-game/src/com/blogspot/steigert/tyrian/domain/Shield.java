@@ -11,24 +11,27 @@ public enum Shield
     implements
         Item
 {
-    SIF( "Structural Field", 100, 1 ),
-    AIF( "Advanced Field", 250, 2 ),
-    GLES( "Gencore LE Shield", 500, 3 ),
-    GHEF( "Gencore HE Shield", 1000, 4 ),
-    MLXS( "MicroCorp LXS-A", 2000, 5 );
+    SIF( "Structural Field", 100, 1, "shield-sig" ),
+    AIF( "Advanced Field", 250, 2, "shield-aif" ),
+    GLES( "Gencore LE Shield", 500, 3, "shield-gles" ),
+    GHEF( "Gencore HE Shield", 1000, 4, "shield-ghef" ),
+    MLXS( "MicroCorp LXS-A", 2000, 5, "shield-mlxs" );
 
     private final String name;
     private final int price;
     private final int armor;
+    private final String previewImage;
 
     private Shield(
         String name,
         int price,
-        int armor )
+        int armor,
+        String previewImage )
     {
         this.name = name;
         this.price = price;
         this.armor = armor;
+        this.previewImage = previewImage;
     }
 
     public String getName()
@@ -55,6 +58,11 @@ public enum Shield
     public int getArmor()
     {
         return armor;
+    }
+
+    public String getPreviewImage()
+    {
+        return previewImage;
     }
 
     @Override

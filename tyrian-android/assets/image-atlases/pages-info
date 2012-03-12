@@ -50,3 +50,73 @@ ship-model-carrot
   orig: 22, 28
   offset: 0, 0
   index: -1
+shield-sig
+  rotate: false
+  xy: 48, 0
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+shield-mlxs
+  rotate: false
+  xy: 72, 0
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+shield-gles
+  rotate: false
+  xy: 96, 0
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+shield-ghef
+  rotate: false
+  xy: 24, 30
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+shield-aif
+  rotate: false
+  xy: 24, 60
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+front-gun-wave
+  rotate: false
+  xy: 24, 90
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+front-gun-vulcan
+  rotate: false
+  xy: 48, 30
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+front-gun-pulse
+  rotate: false
+  xy: 72, 30
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+front-gun-proton
+  rotate: false
+  xy: 96, 30
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
+front-gun-missile
+  rotate: false
+  xy: 48, 60
+  size: 22, 28
+  orig: 22, 28
+  offset: 0, 0
+  index: -1
