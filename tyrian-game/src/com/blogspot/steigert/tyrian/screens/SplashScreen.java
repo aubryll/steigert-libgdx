@@ -1,8 +1,6 @@
 package com.blogspot.steigert.tyrian.screens;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.OnActionCompleted;
 import com.badlogic.gdx.scenes.scene2d.actions.Delay;
@@ -21,7 +19,6 @@ public class SplashScreen
     extends
         AbstractScreen
 {
-    private Texture splashTexture;
     private Image splashImage;
 
     public SplashScreen(
@@ -35,20 +32,13 @@ public class SplashScreen
     {
         super.show();
 
-        // load the texture with the splash image
-        splashTexture = new Texture( "image-atlases/splash.png" );
-
-        // set the linear texture filter to improve the image stretching
-        splashTexture.setFilter( TextureFilter.Linear, TextureFilter.Linear );
-
-        // in the image atlas, our splash image begins at (0,0) of the
-        // upper-left corner and has a dimension of 512x301
-        TextureRegion splashRegion = new TextureRegion( splashTexture, 0, 0, 512, 301 );
+        // retrieve the splash image's region from the atlas
+        AtlasRegion splashRegion = getAtlas().findRegion( "splash-image" );
 
         // here we create the splash image actor; its size is set when the
         // resize() method gets called
         splashImage = new Image( splashRegion, Scaling.stretch, Align.BOTTOM | Align.LEFT );
-
+        
         // this is needed for the fade-in effect to work correctly; we're just
         // making the image completely transparent
         splashImage.color.a = 0f;
@@ -83,12 +73,5 @@ public class SplashScreen
 
         // we need a complete redraw
         splashImage.invalidateHierarchy();
-    }
-
-    @Override
-    public void dispose()
-    {
-        super.dispose();
-        splashTexture.dispose();
     }
 }

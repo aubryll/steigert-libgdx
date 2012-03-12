@@ -139,6 +139,7 @@ public class Profile
         Json json,
         OrderedMap<String,Object> jsonData )
     {
+        // read the some basic properties
         currentLevelId = json.readValue( "currentLevelId", Integer.class, jsonData );
         credits = json.readValue( "credits", Integer.class, jsonData );
 
@@ -151,6 +152,9 @@ public class Profile
             Integer highScore = highScores.get( levelIdAsString );
             this.highScores.put( levelId, highScore );
         }
+
+        // finally, read the ship
+        ship = json.readValue( "ship", Ship.class, jsonData );
     }
 
     @Override

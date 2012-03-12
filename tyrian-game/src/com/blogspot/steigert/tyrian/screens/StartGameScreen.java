@@ -3,6 +3,7 @@ package com.blogspot.steigert.tyrian.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectionListener;
@@ -32,8 +33,12 @@ public class StartGameScreen
     private TextButton episode3Button;
     private SelectBox shipModelSelectBox;
     private SelectBox frontGunSelectBox;
-    private SelectBox shieldModelSelectBox;
+    private SelectBox shieldSelectBox;
     private Label creditsLabel;
+
+    private Image shipModelImage;
+    private Image frontGunImage;
+    private Image shieldImage;
 
     private LevelClickListener levelClickListener;
     private ItemSelectionListener itemSelectionListener;
@@ -89,11 +94,20 @@ public class StartGameScreen
         frontGunSelectBox.setSelectionListener( itemSelectionListener );
         layout.register( "frontGunSelectBox", frontGunSelectBox );
 
-        shieldModelSelectBox = new SelectBox( skin );
-        shieldModelSelectBox.setItems( Shield.values() );
-        shieldModelSelectBox.setSelectionListener( itemSelectionListener );
-        layout.register( "shieldModelSelectBox", shieldModelSelectBox );
+        shieldSelectBox = new SelectBox( skin );
+        shieldSelectBox.setItems( Shield.values() );
+        shieldSelectBox.setSelectionListener( itemSelectionListener );
+        layout.register( "shieldSelectBox", shieldSelectBox );
 
+        // create the image placeholders
+        shipModelImage = new Image();
+        layout.register( "shipModelImage", shipModelImage );
+        frontGunImage = new Image();
+        layout.register( "frontGunImage", frontGunImage );
+        shieldImage = new Image();
+        layout.register( "shieldImage", shieldImage );
+
+        // create the credits label
         creditsLabel = new Label( profile.getCreditsAsText(), skin );
         layout.register( "creditsLabel", creditsLabel );
 
@@ -113,6 +127,9 @@ public class StartGameScreen
 
         // finally, parse the layout descriptor
         layout.parse( Gdx.files.internal( "layout-descriptors/start-game-screen.txt" ).readString() );
+
+        // set the select boxes' initial values
+        updateValues();
     }
 
     @Override
@@ -128,6 +145,17 @@ public class StartGameScreen
 
         // we need a complete redraw
         table.invalidateHierarchy();
+    }
+
+    private void updateValues()
+    {
+        // select boxes
+        shipModelSelectBox.setSelection( ship.getShipModel().ordinal() );
+        frontGunSelectBox.setSelection( ship.getFrontGun().ordinal() );
+        shieldSelectBox.setSelection( ship.getShield().ordinal() );
+
+        // images
+        shipModelImage.setRegion( getAtlas().findRegion( ship.getShipModel().getPreviewImage() ) );
     }
 
     /**
@@ -182,21 +210,20 @@ public class StartGameScreen
                 selectedItem = ShipModel.values()[ index ];
             } else if( actor == frontGunSelectBox ) {
                 selectedItem = FrontGun.values()[ index ];
-            } else if( actor == shieldModelSelectBox ) {
+            } else if( actor == shieldSelectBox ) {
                 selectedItem = Shield.values()[ index ];
             }
 
             // if the ship already contains the item, there is no need to buy it
             if( ship.contains( selectedItem ) ) return;
 
-            // try and buy the item or reset all select boxes
+            // try and buy the item
             if( profile.buy( selectedItem ) ) {
                 creditsLabel.setText( profile.getCreditsAsText() );
-            } else {
-                shipModelSelectBox.setSelection( ship.getShipModel().ordinal() );
-                frontGunSelectBox.setSelection( ship.getFrontGun().ordinal() );
-                shieldModelSelectBox.setSelection( ship.getShield().ordinal() );
             }
+
+            // update the widgets
+            updateValues();
         }
     }
 }

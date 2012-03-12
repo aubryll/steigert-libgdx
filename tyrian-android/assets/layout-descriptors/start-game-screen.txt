@@ -5,7 +5,7 @@ debug
 | fill:x
 | fill:x
 ---
-'Start Game' colspan:4 spacingBottom:20
+'Start Game' colspan:5 spacingBottom:20
 ---
 'Levels'
 [episode1Button]
@@ -14,14 +14,17 @@ debug
 ---
 'Ship Model'
 [shipModelSelectBox] colspan:3
+[shipModelImage]
 ---
 'Front Gun'
 [frontGunSelectBox] colspan:3
+[frontGunImage]
 ---
 'Shield'
-[shieldModelSelectBox] colspan:3
+[shieldSelectBox] colspan:3
+[shieldImage]
 ---
 'Credits'
-[creditsLabel] colspan:3
+[creditsLabel] colspan:4
 ---
-[backButton] colspan:4 width:300 height:60 spacingTop:30
+[backButton] colspan:5 width:300 height:60 spacingTop:30

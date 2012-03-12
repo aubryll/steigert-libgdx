@@ -6,6 +6,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.blogspot.steigert.tyrian.Tyrian;
@@ -23,6 +24,7 @@ public abstract class AbstractScreen
     private BitmapFont font;
     private SpriteBatch batch;
     private Skin skin;
+    private TextureAtlas atlas;
 
     public AbstractScreen(
         Tyrian game )
@@ -50,6 +52,14 @@ public abstract class AbstractScreen
             batch = new SpriteBatch();
         }
         return batch;
+    }
+
+    public TextureAtlas getAtlas()
+    {
+        if( atlas == null ) {
+            atlas = new TextureAtlas( Gdx.files.internal( "image-atlases/pages-info" ) );
+        }
+        return atlas;
     }
 
     protected Skin getSkin()
@@ -132,5 +142,6 @@ public abstract class AbstractScreen
         if( font != null ) font.dispose();
         if( batch != null ) batch.dispose();
         if( skin != null ) skin.dispose();
+        if( atlas != null ) atlas.dispose();
     }
 }
