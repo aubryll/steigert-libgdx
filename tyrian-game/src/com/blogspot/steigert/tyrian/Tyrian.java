@@ -115,7 +115,7 @@ public class Tyrian
         // show the splash screen when the game is resized for the first time;
         // this approach avoids calling the screen's resize method repeatedly
         if( getScreen() == null ) {
-            setScreen( getStartGameScreen() );
+            setScreen( getSplashScreen() );
         }
     }
 
@@ -125,7 +125,7 @@ public class Tyrian
         super.render();
 
         // output the current FPS
-        if( DEV_MODE && false ) fpsLogger.log();
+        if( DEV_MODE ) fpsLogger.log();
     }
 
     @Override
