@@ -3,14 +3,19 @@ package com.blogspot.steigert.tyrian.services;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Disposable;
 import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.services.SoundManager.TyrianSound;
 import com.blogspot.steigert.tyrian.utils.LRUCache;
 import com.blogspot.steigert.tyrian.utils.LRUCache.CacheEntryRemovedListener;
 
+/**
+ * A service that manages the sound effects.
+ */
 public class SoundManager
     implements
-        CacheEntryRemovedListener<TyrianSound,Sound>
+        CacheEntryRemovedListener<TyrianSound,Sound>,
+        Disposable
 {
     /**
      * The available sound files.

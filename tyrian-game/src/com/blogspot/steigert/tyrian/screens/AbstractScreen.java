@@ -140,6 +140,7 @@ public abstract class AbstractScreen
     public void dispose()
     {
         Gdx.app.log( Tyrian.LOG, "Disposing screen: " + getName() );
+        stage.dispose();
         if( font != null ) font.dispose();
         if( batch != null ) batch.dispose();
         if( skin != null ) skin.dispose();

@@ -3,6 +3,7 @@ package com.blogspot.steigert.tyrian.services;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Disposable;
 import com.blogspot.steigert.tyrian.Tyrian;
 
 /**
@@ -11,6 +12,8 @@ import com.blogspot.steigert.tyrian.Tyrian;
  * Only one music may be playing at a given time.
  */
 public class MusicManager
+    implements
+        Disposable
 {
     /**
      * The available music files.
