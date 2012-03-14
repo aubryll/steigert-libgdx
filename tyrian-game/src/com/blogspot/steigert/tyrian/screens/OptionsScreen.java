@@ -87,6 +87,7 @@ public class OptionsScreen
                 float value )
             {
                 game.getPreferences().setVolume( value );
+                game.getMusicManager().setVolume( value );
                 updateVolumeLabel();
             }
         } );

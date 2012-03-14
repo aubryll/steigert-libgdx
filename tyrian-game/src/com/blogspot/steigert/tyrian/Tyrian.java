@@ -12,7 +12,9 @@ import com.blogspot.steigert.tyrian.screens.OptionsScreen;
 import com.blogspot.steigert.tyrian.screens.ProfileScreen;
 import com.blogspot.steigert.tyrian.screens.SplashScreen;
 import com.blogspot.steigert.tyrian.screens.StartGameScreen;
+import com.blogspot.steigert.tyrian.services.MusicManager;
 import com.blogspot.steigert.tyrian.services.ProfileService;
+import com.blogspot.steigert.tyrian.services.TyrianPreferences;
 
 /**
  * The game's main class, called as application events are fired.
@@ -30,17 +32,16 @@ public class Tyrian
     // a libgdx helper class that logs the current FPS each second
     private FPSLogger fpsLogger;
 
-    // collaborators
-    private final TyrianPreferences preferences;
-    private final ProfileService profileService;
+    // services
+    private TyrianPreferences preferences;
+    private ProfileService profileService;
+    private MusicManager musicManager;
 
     public Tyrian()
     {
-        preferences = new TyrianPreferences();
-        profileService = new ProfileService();
     }
 
-    // Collaborators
+    // Services' getters
 
     public TyrianPreferences getPreferences()
     {
@@ -50,6 +51,11 @@ public class Tyrian
     public ProfileService getProfileService()
     {
         return profileService;
+    }
+
+    public MusicManager getMusicManager()
+    {
+        return musicManager;
     }
 
     // Screen methods
@@ -94,14 +100,26 @@ public class Tyrian
         return new StartGameScreen( this );
     }
 
-    // Game methods
+    // Game-related methods
 
     @Override
     public void create()
     {
         Gdx.app.log( Tyrian.LOG, "Creating game on " + Gdx.app.getType() );
-        fpsLogger = new FPSLogger();
+
+        // create the preferences service
+        preferences = new TyrianPreferences();
+
+        // create the music manager service
+        musicManager = new MusicManager();
+        musicManager.setVolume( preferences.getVolume() );
+
+        // create the profiler service
+        profileService = new ProfileService();
         profileService.retrieveProfile();
+
+        // create the FPS logger
+        fpsLogger = new FPSLogger();
     }
 
     @Override
@@ -159,5 +177,8 @@ public class Tyrian
     {
         super.dispose();
         Gdx.app.log( Tyrian.LOG, "Disposing game" );
+        
+        // stop and dispose any music being played
+        musicManager.stop();
     }
 }

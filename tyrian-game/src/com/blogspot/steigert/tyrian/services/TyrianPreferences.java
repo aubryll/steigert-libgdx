@@ -1,4 +1,4 @@
-package com.blogspot.steigert.tyrian;
+package com.blogspot.steigert.tyrian.services;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;

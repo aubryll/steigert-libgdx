@@ -13,7 +13,7 @@ import com.blogspot.steigert.tyrian.domain.Profile;
 public class ProfileService
 {
     // the location of the profile data file
-    private static final String PROFILE_DATA_FILE = ".tyrian/profile-v1.json";
+    private static final String PROFILE_DATA_FILE = "data/profile-v1.json";
 
     // the loaded profile (may be null)
     private Profile profile;
@@ -30,13 +30,12 @@ public class ProfileService
      */
     public Profile retrieveProfile()
     {
-        Gdx.app.log( Tyrian.LOG, "Retrieving profile" );
+        // create the handle for the profile data file
+        FileHandle profileDataFile = Gdx.files.local( PROFILE_DATA_FILE );
+        Gdx.app.log( Tyrian.LOG, "Retrieving profile from: " + profileDataFile.path() );
 
         // if the profile is already loaded, just return it
         if( profile != null ) return profile;
-
-        // create the handle for the profile data file
-        FileHandle profileDataFile = Gdx.files.external( PROFILE_DATA_FILE );
 
         // create the JSON utility object
         Json json = new Json();
@@ -87,13 +86,12 @@ public class ProfileService
     protected void persist(
         Profile profile )
     {
-        Gdx.app.log( Tyrian.LOG, "Persisting profile" );
+        // create the handle for the profile data file
+        FileHandle profileDataFile = Gdx.files.local( PROFILE_DATA_FILE );
+        Gdx.app.log( Tyrian.LOG, "Persisting profile in: " + profileDataFile.path() );
 
         // create the JSON utility object
         Json json = new Json();
-
-        // create the handle for the profile data file
-        FileHandle profileDataFile = Gdx.files.external( PROFILE_DATA_FILE );
 
         // convert the given profile to text
         String profileAsText = json.toJson( profile );
