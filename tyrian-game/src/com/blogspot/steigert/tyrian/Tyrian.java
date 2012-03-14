@@ -13,8 +13,9 @@ import com.blogspot.steigert.tyrian.screens.ProfileScreen;
 import com.blogspot.steigert.tyrian.screens.SplashScreen;
 import com.blogspot.steigert.tyrian.screens.StartGameScreen;
 import com.blogspot.steigert.tyrian.services.MusicManager;
-import com.blogspot.steigert.tyrian.services.ProfileService;
-import com.blogspot.steigert.tyrian.services.TyrianPreferences;
+import com.blogspot.steigert.tyrian.services.PreferencesManager;
+import com.blogspot.steigert.tyrian.services.ProfileManager;
+import com.blogspot.steigert.tyrian.services.SoundManager;
 
 /**
  * The game's main class, called as application events are fired.
@@ -33,9 +34,10 @@ public class Tyrian
     private FPSLogger fpsLogger;
 
     // services
-    private TyrianPreferences preferences;
-    private ProfileService profileService;
+    private PreferencesManager preferencesManager;
+    private ProfileManager profileManager;
     private MusicManager musicManager;
+    private SoundManager soundManager;
 
     public Tyrian()
     {
@@ -43,19 +45,24 @@ public class Tyrian
 
     // Services' getters
 
-    public TyrianPreferences getPreferences()
+    public PreferencesManager getPreferencesManager()
     {
-        return preferences;
+        return preferencesManager;
     }
 
-    public ProfileService getProfileService()
+    public ProfileManager getProfileManager()
     {
-        return profileService;
+        return profileManager;
     }
 
     public MusicManager getMusicManager()
     {
         return musicManager;
+    }
+
+    public SoundManager getSoundManager()
+    {
+        return soundManager;
     }
 
     // Screen methods
@@ -108,15 +115,21 @@ public class Tyrian
         Gdx.app.log( Tyrian.LOG, "Creating game on " + Gdx.app.getType() );
 
         // create the preferences service
-        preferences = new TyrianPreferences();
+        preferencesManager = new PreferencesManager();
 
         // create the music manager service
         musicManager = new MusicManager();
-        musicManager.setVolume( preferences.getVolume() );
+        musicManager.setVolume( preferencesManager.getVolume() );
+        musicManager.setEnabled( preferencesManager.isMusicEnabled() );
+
+        // create the sound manager service
+        soundManager = new SoundManager();
+        soundManager.setVolume( preferencesManager.getVolume() );
+        soundManager.setEnabled( preferencesManager.isSoundEnabled() );
 
         // create the profiler service
-        profileService = new ProfileService();
-        profileService.retrieveProfile();
+        profileManager = new ProfileManager();
+        profileManager.retrieveProfile();
 
         // create the FPS logger
         fpsLogger = new FPSLogger();
@@ -154,7 +167,7 @@ public class Tyrian
 
         // persist the profile, because we don't know if the player will come
         // back to the game
-        profileService.persist();
+        profileManager.persist();
     }
 
     @Override
@@ -177,8 +190,9 @@ public class Tyrian
     {
         super.dispose();
         Gdx.app.log( Tyrian.LOG, "Disposing game" );
-        
-        // stop and dispose any music being played
-        musicManager.stop();
+
+        // dipose some services
+        musicManager.dispose();
+        soundManager.dispose();
     }
 }

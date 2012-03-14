@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.TableLayout;
 import com.blogspot.steigert.tyrian.Tyrian;
+import com.blogspot.steigert.tyrian.services.SoundManager.TyrianSound;
 
 public class MenuScreen
     extends
@@ -45,6 +46,7 @@ public class MenuScreen
                 float x,
                 float y )
             {
+                game.getSoundManager().play( TyrianSound.CLICK );
                 game.setScreen( game.getStartGameScreen() );
             }
         } );
@@ -59,6 +61,7 @@ public class MenuScreen
                 float x,
                 float y )
             {
+                game.getSoundManager().play( TyrianSound.CLICK );
                 game.setScreen( game.getOptionsScreen() );
             }
         } );
@@ -73,6 +76,7 @@ public class MenuScreen
                 float x,
                 float y )
             {
+                game.getSoundManager().play( TyrianSound.CLICK );
                 game.setScreen( game.getHighScoresScreen() );
             }
         } );

@@ -10,7 +10,7 @@ import com.blogspot.steigert.tyrian.domain.Profile;
 /**
  * Profile operations.
  */
-public class ProfileService
+public class ProfileManager
 {
     // the location of the profile data file
     private static final String PROFILE_DATA_FILE = "data/profile-v1.json";
@@ -19,9 +19,9 @@ public class ProfileService
     private Profile profile;
 
     /**
-     * Creates the profile service.
+     * Creates the profile manager.
      */
-    public ProfileService()
+    public ProfileManager()
     {
     }
 

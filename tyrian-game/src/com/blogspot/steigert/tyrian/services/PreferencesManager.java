@@ -6,7 +6,7 @@ import com.badlogic.gdx.Preferences;
 /**
  * Handles the game preferences.
  */
-public class TyrianPreferences
+public class PreferencesManager
 {
     // constants
     private static final String PREF_VOLUME = "volume";
@@ -14,7 +14,7 @@ public class TyrianPreferences
     private static final String PREF_SOUND_ENABLED = "sound.enabled";
     private static final String PREFS_NAME = "tyrian";
 
-    public TyrianPreferences()
+    public PreferencesManager()
     {
     }
 
@@ -23,12 +23,12 @@ public class TyrianPreferences
         return Gdx.app.getPreferences( PREFS_NAME );
     }
 
-    public boolean isSoundEffectsEnabled()
+    public boolean isSoundEnabled()
     {
         return getPrefs().getBoolean( PREF_SOUND_ENABLED, true );
     }
 
-    public void setSoundEffectsEnabled(
+    public void setSoundEnabled(
         boolean soundEffectsEnabled )
     {
         getPrefs().putBoolean( PREF_SOUND_ENABLED, soundEffectsEnabled );

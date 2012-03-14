@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.TableLayout;
 import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.domain.Profile;
+import com.blogspot.steigert.tyrian.services.SoundManager.TyrianSound;
 
 /**
  * A simple high scores screen.
@@ -40,7 +41,7 @@ public class HighScoresScreen
 
         // retrieve the table's layout
         TableLayout layout = table.getTableLayout();
-        Profile profile = game.getProfileService().retrieveProfile();
+        Profile profile = game.getProfileManager().retrieveProfile();
 
         // create the labels widgets
         String level1Highscore = String.valueOf( profile.getHighScore( 0 ) );
@@ -64,6 +65,7 @@ public class HighScoresScreen
                 float x,
                 float y )
             {
+                game.getSoundManager().play( TyrianSound.CLICK );
                 game.setScreen( game.getMenuScreen() );
             }
         } );

@@ -19,6 +19,7 @@ import com.blogspot.steigert.tyrian.domain.Profile;
 import com.blogspot.steigert.tyrian.domain.Shield;
 import com.blogspot.steigert.tyrian.domain.Ship;
 import com.blogspot.steigert.tyrian.domain.ShipModel;
+import com.blogspot.steigert.tyrian.services.SoundManager.TyrianSound;
 
 public class StartGameScreen
     extends
@@ -67,7 +68,7 @@ public class StartGameScreen
 
         // retrieve the table's layout
         TableLayout layout = table.getTableLayout();
-        profile = game.getProfileService().retrieveProfile();
+        profile = game.getProfileManager().retrieveProfile();
         ship = profile.getShip();
 
         // create the level buttons
@@ -120,6 +121,7 @@ public class StartGameScreen
                 float x,
                 float y )
             {
+                game.getSoundManager().play( TyrianSound.CLICK );
                 game.setScreen( game.getMenuScreen() );
             }
         } );
@@ -173,6 +175,8 @@ public class StartGameScreen
             float x,
             float y )
         {
+            game.getSoundManager().play( TyrianSound.CLICK );
+            
             // find the target level ID
             Level[] levels = Level.retrieve();
             int targetLevelId = 0;

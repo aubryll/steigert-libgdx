@@ -23,9 +23,9 @@ public class MusicManager
         private final String fileName;
 
         private TyrianMusic(
-            String musicFileName )
+            String fileName )
         {
-            this.fileName = musicFileName;
+            this.fileName = fileName;
         }
 
         public String getFileName()
@@ -45,6 +45,11 @@ public class MusicManager
     private float volume = 1f;
 
     /**
+     * Whether the music is enabled.
+     */
+    private boolean enabled = true;
+
+    /**
      * Creates the music manager.
      */
     public MusicManager()
@@ -59,9 +64,14 @@ public class MusicManager
     public void play(
         TyrianMusic music )
     {
+        // check if the music is enabled
+        if( ! enabled ) return;
+
+        // stop any music being played
         Gdx.app.log( Tyrian.LOG, "Playing music: " + music.name() );
         stop();
 
+        // start streaming the new music
         FileHandle musicFile = Gdx.files.internal( music.getFileName() );
         musicBeingPlayed = Gdx.audio.newMusic( musicFile );
         musicBeingPlayed.setVolume( volume );
@@ -87,7 +97,7 @@ public class MusicManager
     public void setVolume(
         float volume )
     {
-        Gdx.app.log( Tyrian.LOG, "Adjusting volume to: " + volume );
+        Gdx.app.log( Tyrian.LOG, "Adjusting music volume to: " + volume );
 
         // check and set the new volume
         if( volume < 0 || volume > 1f ) {
@@ -99,5 +109,28 @@ public class MusicManager
         if( musicBeingPlayed != null ) {
             musicBeingPlayed.setVolume( volume );
         }
+    }
+
+    /**
+     * Enables or disabled the music.
+     */
+    public void setEnabled(
+        boolean enabled )
+    {
+        this.enabled = enabled;
+
+        // if the music is being deactivated, stop any music being played
+        if( ! enabled ) {
+            stop();
+        }
+    }
+
+    /**
+     * Disposes the music manager.
+     */
+    public void dispose()
+    {
+        Gdx.app.log( Tyrian.LOG, "Disposing music manager" );
+        stop();
     }
 }
