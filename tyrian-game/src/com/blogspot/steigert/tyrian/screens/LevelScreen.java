@@ -1,28 +1,35 @@
 package com.blogspot.steigert.tyrian.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.blogspot.steigert.tyrian.Tyrian;
+import com.blogspot.steigert.tyrian.domain.Level;
+import com.blogspot.steigert.tyrian.domain.Profile;
+import com.blogspot.steigert.tyrian.screens.scene2d.Ship2D;
 
 public class LevelScreen
     extends
         AbstractScreen
 {
+    private final Level level;
+
+    private final Profile profile;
+
+    private Ship2D ship2d;
+
     public LevelScreen(
-        Tyrian game )
+        Tyrian game,
+        int targetLevelId )
     {
         super( game );
+
+        profile = game.getProfileManager().retrieveProfile();
+        level = game.getLevelManager().findLevelById( targetLevelId );
     }
 
     @Override
-    public void render(
-        float delta )
+    public void show()
     {
-        super.render( delta );
+        super.show();
 
-        // return to the profile screen when ESC is pressed
-        if( Gdx.input.isKeyPressed( Keys.ESCAPE ) ) {
-            game.setScreen( game.getProfileScreen() );
-        }
+        ship2d = new Ship2D( profile.getShip(), getAtlas() );
     }
 }

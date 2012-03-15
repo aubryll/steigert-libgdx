@@ -11,27 +11,24 @@ public enum ShipModel
     implements
         Item
 {
-    USP_TALON( "USP Talon", 6000, 1, "ship-model-talon" ),
-    GENCORE_PHOENIX( "Gencore Phoenix", 12000, 2, "ship-model-gencore" ),
-    GENCORE_II( "Gencore II", 17000, 3, "ship-model-gencore2" ),
-    MICROSOL_STALKER( "Microsol Stalker", 20000, 4, "ship-model-stalker" ),
-    SUPER_CARROT( "Super Carrot", 50000, 5, "ship-model-carrot" );
+    USP_TALON( "USP Talon", 6000, 1 ),
+    GENCORE_PHOENIX( "Gencore Phoenix", 12000, 2 ),
+    GENCORE_II( "Gencore II", 17000, 3 ),
+    MICROSOL_STALKER( "Microsol Stalker", 20000, 4 ),
+    SUPER_CARROT( "Super Carrot", 50000, 5 );
 
     private final String name;
     private final int price;
     private final int firingCapacity;
-    private final String previewImage;
 
     private ShipModel(
         String name,
         int price,
-        int firingCapacity,
-        String previewImage )
+        int firingCapacity )
     {
         this.name = name;
         this.price = price;
         this.firingCapacity = firingCapacity;
-        this.previewImage = previewImage;
     }
 
     public String getName()
@@ -58,11 +55,6 @@ public enum ShipModel
     public int getFiringCapacity()
     {
         return firingCapacity;
-    }
-
-    public String getPreviewImage()
-    {
-        return previewImage;
     }
 
     @Override

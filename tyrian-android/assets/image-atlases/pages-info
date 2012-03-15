@@ -1,4 +1,114 @@
 
+level-screen1.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ship
+  rotate: false
+  xy: 0, 0
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 2
+ship
+  rotate: false
+  xy: 0, 30
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 1
+ship
+  rotate: false
+  xy: 0, 60
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 0
+ship
+  rotate: false
+  xy: 0, 90
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 2
+ship
+  rotate: false
+  xy: 26, 0
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 1
+ship
+  rotate: false
+  xy: 52, 0
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 0
+ship
+  rotate: false
+  xy: 78, 0
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 2
+ship
+  rotate: false
+  xy: 104, 0
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 1
+ship
+  rotate: false
+  xy: 26, 30
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 0
+ship
+  rotate: false
+  xy: 26, 60
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 2
+ship
+  rotate: false
+  xy: 26, 90
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 1
+ship
+  rotate: false
+  xy: 52, 30
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 0
+ship
+  rotate: false
+  xy: 78, 30
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 2
+ship
+  rotate: false
+  xy: 104, 30
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 1
+ship
+  rotate: false
+  xy: 52, 60
+  size: 24, 28
+  orig: 24, 28
+  offset: 0, 0
+  index: 0
+
 splash-screen1.png
 format: RGBA8888
 filter: Linear,Linear
@@ -15,42 +125,42 @@ start-game-screen1.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ship-model-talon
+ship-model-usp-talon
   rotate: false
   xy: 0, 0
   size: 22, 28
   orig: 22, 28
   offset: 0, 0
   index: -1
-ship-model-stalker
+ship-model-super-carrot
   rotate: false
   xy: 0, 30
   size: 22, 28
   orig: 22, 28
   offset: 0, 0
   index: -1
-ship-model-gencore2
+ship-model-microsol-stalker
   rotate: false
   xy: 0, 60
   size: 22, 28
   orig: 22, 28
   offset: 0, 0
   index: -1
-ship-model-gencore
+ship-model-gencore-phoenix
   rotate: false
   xy: 0, 90
   size: 22, 28
   orig: 22, 28
   offset: 0, 0
   index: -1
-ship-model-carrot
+ship-model-gencore-ii
   rotate: false
   xy: 24, 0
   size: 22, 28
   orig: 22, 28
   offset: 0, 0
   index: -1
-shield-sig
+shield-sif
   rotate: false
   xy: 48, 0
   size: 22, 28
@@ -85,35 +195,35 @@ shield-aif
   orig: 22, 28
   offset: 0, 0
   index: -1
-front-gun-wave
+front-gun-wave-cannon
   rotate: false
   xy: 24, 90
   size: 22, 28
   orig: 22, 28
   offset: 0, 0
   index: -1
-front-gun-vulcan
+front-gun-vulcan-cannon
   rotate: false
   xy: 48, 30
   size: 22, 28
   orig: 22, 28
   offset: 0, 0
   index: -1
-front-gun-pulse
+front-gun-pulse-cannon
   rotate: false
   xy: 72, 30
   size: 22, 28
   orig: 22, 28
   offset: 0, 0
   index: -1
-front-gun-proton
+front-gun-proton-launcher
   rotate: false
   xy: 96, 30
   size: 22, 28
   orig: 22, 28
   offset: 0, 0
   index: -1
-front-gun-missile
+front-gun-missile-launcher
   rotate: false
   xy: 48, 60
   size: 22, 28

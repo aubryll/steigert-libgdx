@@ -1,0 +1,4 @@
+ - Ship animation images, indexed file names
+ - InputProcessor on the stage
+ - LevelManager (Level domain class is now dumber)
+ - Removed the preview image from the enumerated items (convention over configuration)

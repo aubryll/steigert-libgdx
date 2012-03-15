@@ -82,30 +82,4 @@ public class Level
     {
         return ( nextLevel != null );
     }
-
-    // Static methods
-
-    /**
-     * Retrieves the current level configuration.
-     */
-    public static Level[] retrieve()
-    {
-        Level[] levels = new Level[ 3 ];
-
-        // create the level 2
-        levels[ 2 ] = new Level( 2 );
-        levels[ 2 ].setName( "Episode 3" );
-
-        // create the level 1
-        levels[ 1 ] = new Level( 1 );
-        levels[ 1 ].setName( "Episode 2" );
-        levels[ 1 ].setNextLevel( levels[ 2 ] );
-
-        // create the level 0
-        levels[ 0 ] = new Level( 0 );
-        levels[ 0 ].setName( "Episode 1" );
-        levels[ 0 ].setNextLevel( levels[ 1 ] );
-
-        return levels;
-    }
 }

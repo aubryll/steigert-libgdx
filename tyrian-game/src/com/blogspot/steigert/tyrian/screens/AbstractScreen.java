@@ -120,7 +120,9 @@ public abstract class AbstractScreen
     {
         Gdx.app.log( Tyrian.LOG, "Hiding screen: " + getName() );
 
-        // dispose the resources by default
+        // dispose the screen when leaving the screen;
+        // note that the dipose() method is not called automatically by the
+        // framework, so we must figure out when it's appropriate to call it
         dispose();
     }
 
@@ -140,7 +142,8 @@ public abstract class AbstractScreen
     public void dispose()
     {
         Gdx.app.log( Tyrian.LOG, "Disposing screen: " + getName() );
-        stage.dispose();
+
+        // as the collaborators are lazily loaded, they may be null
         if( font != null ) font.dispose();
         if( batch != null ) batch.dispose();
         if( skin != null ) skin.dispose();

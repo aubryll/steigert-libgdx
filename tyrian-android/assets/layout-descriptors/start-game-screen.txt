@@ -8,9 +8,9 @@ debug
 'Start Game' colspan:5 spacingBottom:20
 ---
 'Levels'
-[episode1Button]
-[episode2Button]
-[episode3Button]
+[episode1Button] width:100
+[episode2Button] width:100
+[episode3Button] width:100
 ---
 'Ship Model'
 [shipModelSelectBox] colspan:3

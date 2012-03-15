@@ -1,6 +1,7 @@
 package com.blogspot.steigert.tyrian.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -14,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.TableLayout;
 import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.domain.FrontGun;
 import com.blogspot.steigert.tyrian.domain.Item;
-import com.blogspot.steigert.tyrian.domain.Level;
 import com.blogspot.steigert.tyrian.domain.Profile;
 import com.blogspot.steigert.tyrian.domain.Shield;
 import com.blogspot.steigert.tyrian.domain.Ship;
@@ -157,9 +157,25 @@ public class StartGameScreen
         shieldSelectBox.setSelection( ship.getShield().ordinal() );
 
         // images
-        shipModelImage.setRegion( getAtlas().findRegion( ship.getShipModel().getPreviewImage() ) );
-        frontGunImage.setRegion( getAtlas().findRegion( ship.getFrontGun().getPreviewImage() ) );
-        shieldImage.setRegion( getAtlas().findRegion( ship.getShield().getPreviewImage() ) );
+        shipModelImage.setRegion( findRegion( ship.getShipModel() ) );
+        frontGunImage.setRegion( findRegion( ship.getFrontGun() ) );
+        shieldImage.setRegion( findRegion( ship.getShield() ) );
+    }
+
+    private AtlasRegion findRegion(
+        Item item )
+    {
+        String prefix = null;
+        if( item instanceof ShipModel ) {
+            prefix = "ship-model-";
+        } else if( item instanceof FrontGun ) {
+            prefix = "front-gun-";
+        } else if( item instanceof Shield ) {
+            prefix = "shield-";
+        }
+        Enum<?> enumeratedItem = (Enum<?>) item;
+        String imageName = enumeratedItem.name().replaceAll( "_", "-" ).toLowerCase();
+        return getAtlas().findRegion( prefix + imageName );
     }
 
     /**
@@ -176,21 +192,21 @@ public class StartGameScreen
             float y )
         {
             game.getSoundManager().play( TyrianSound.CLICK );
-            
+
             // find the target level ID
-            Level[] levels = Level.retrieve();
-            int targetLevelId = 0;
+            int targetLevelId = - 1;
             if( actor == episode1Button ) {
-                targetLevelId = levels[ 0 ].getId();
+                targetLevelId = 0;
             } else if( actor == episode2Button ) {
-                targetLevelId = levels[ 1 ].getId();
+                targetLevelId = 1;
             } else if( actor == episode3Button ) {
-                targetLevelId = levels[ 2 ].getId();
+                targetLevelId = 2;
             }
 
             // check the current level ID
             if( profile.getCurrentLevelId() >= targetLevelId ) {
                 Gdx.app.log( Tyrian.LOG, "Starting level: " + targetLevelId );
+                game.setScreen( game.getLevelScreen( targetLevelId ) );
             } else {
                 Gdx.app.log( Tyrian.LOG, "Unable to start level: " + targetLevelId );
             }

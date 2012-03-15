@@ -9,9 +9,9 @@ import com.blogspot.steigert.tyrian.screens.LevelScreen;
 import com.blogspot.steigert.tyrian.screens.LoadSavedGameScreen;
 import com.blogspot.steigert.tyrian.screens.MenuScreen;
 import com.blogspot.steigert.tyrian.screens.OptionsScreen;
-import com.blogspot.steigert.tyrian.screens.ProfileScreen;
 import com.blogspot.steigert.tyrian.screens.SplashScreen;
 import com.blogspot.steigert.tyrian.screens.StartGameScreen;
+import com.blogspot.steigert.tyrian.services.LevelManager;
 import com.blogspot.steigert.tyrian.services.MusicManager;
 import com.blogspot.steigert.tyrian.services.PreferencesManager;
 import com.blogspot.steigert.tyrian.services.ProfileManager;
@@ -36,6 +36,7 @@ public class Tyrian
     // services
     private PreferencesManager preferencesManager;
     private ProfileManager profileManager;
+    private LevelManager levelManager;
     private MusicManager musicManager;
     private SoundManager soundManager;
 
@@ -53,6 +54,11 @@ public class Tyrian
     public ProfileManager getProfileManager()
     {
         return profileManager;
+    }
+
+    public LevelManager getLevelManager()
+    {
+        return levelManager;
     }
 
     public MusicManager getMusicManager()
@@ -77,9 +83,10 @@ public class Tyrian
         return new HighScoresScreen( this );
     }
 
-    public LevelScreen getLevelScreen()
+    public LevelScreen getLevelScreen(
+        int targetLevelId )
     {
-        return new LevelScreen( this );
+        return new LevelScreen( this, targetLevelId );
     }
 
     public LoadSavedGameScreen getLoadSavedGameScreen()
@@ -97,11 +104,6 @@ public class Tyrian
         return new OptionsScreen( this );
     }
 
-    public ProfileScreen getProfileScreen()
-    {
-        return new ProfileScreen( this );
-    }
-
     public StartGameScreen getStartGameScreen()
     {
         return new StartGameScreen( this );
@@ -114,22 +116,25 @@ public class Tyrian
     {
         Gdx.app.log( Tyrian.LOG, "Creating game on " + Gdx.app.getType() );
 
-        // create the preferences service
+        // create the preferences manager
         preferencesManager = new PreferencesManager();
 
-        // create the music manager service
+        // create the music manager
         musicManager = new MusicManager();
         musicManager.setVolume( preferencesManager.getVolume() );
         musicManager.setEnabled( preferencesManager.isMusicEnabled() );
 
-        // create the sound manager service
+        // create the sound manager
         soundManager = new SoundManager();
         soundManager.setVolume( preferencesManager.getVolume() );
         soundManager.setEnabled( preferencesManager.isSoundEnabled() );
 
-        // create the profiler service
+        // create the profile manager
         profileManager = new ProfileManager();
         profileManager.retrieveProfile();
+
+        // create the level manager
+        levelManager = new LevelManager();
 
         // create the FPS logger
         fpsLogger = new FPSLogger();
