@@ -1,6 +1,7 @@
 package com.blogsport.steigert.tyrian;
 
 import android.os.Bundle;
+import android.view.WindowManager;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.blogspot.steigert.tyrian.Tyrian;
@@ -17,6 +18,9 @@ public class TyrianAndroidLauncher
         Bundle savedInstanceState )
     {
         super.onCreate( savedInstanceState );
+
+        // prevent the screen from dimming/sleeping
+        getWindow().addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
 
         // whether to use OpenGL ES 2.0
         boolean useOpenGLES2 = false;

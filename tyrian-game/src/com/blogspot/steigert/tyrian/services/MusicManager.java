@@ -23,7 +23,8 @@ public class MusicManager
         MENU( "music/menu.ogg" ),
         LEVEL( "music/level.ogg" );
 
-        private final String fileName;
+        private String fileName;
+        private Music musicResource;
 
         private TyrianMusic(
             String fileName )
@@ -35,12 +36,23 @@ public class MusicManager
         {
             return fileName;
         }
+
+        public Music getMusicResource()
+        {
+            return musicResource;
+        }
+
+        public void setMusicResource(
+            Music musicBeingPlayed )
+        {
+            this.musicResource = musicBeingPlayed;
+        }
     }
 
     /**
      * Holds the music currently being played, if any.
      */
-    private Music musicBeingPlayed;
+    private TyrianMusic musicBeingPlayed;
 
     /**
      * The volume to be set on the music.
@@ -70,16 +82,25 @@ public class MusicManager
         // check if the music is enabled
         if( ! enabled ) return;
 
-        // stop any music being played
+        // check if the given music is already being played
+        if( musicBeingPlayed == music ) return;
+
+        // do some logging
         Gdx.app.log( Tyrian.LOG, "Playing music: " + music.name() );
+
+        // stop any music being played
         stop();
 
         // start streaming the new music
         FileHandle musicFile = Gdx.files.internal( music.getFileName() );
-        musicBeingPlayed = Gdx.audio.newMusic( musicFile );
-        musicBeingPlayed.setVolume( volume );
-        musicBeingPlayed.setLooping( true );
-        musicBeingPlayed.play();
+        Music musicResource = Gdx.audio.newMusic( musicFile );
+        musicResource.setVolume( volume );
+        musicResource.setLooping( true );
+        musicResource.play();
+
+        // set the music being played
+        musicBeingPlayed = music;
+        musicBeingPlayed.setMusicResource( musicResource );
     }
 
     /**
@@ -89,8 +110,10 @@ public class MusicManager
     {
         if( musicBeingPlayed != null ) {
             Gdx.app.log( Tyrian.LOG, "Stopping current music" );
-            musicBeingPlayed.stop();
-            musicBeingPlayed.dispose();
+            Music musicResource = musicBeingPlayed.getMusicResource();
+            musicResource.stop();
+            musicResource.dispose();
+            musicBeingPlayed = null;
         }
     }
 
@@ -110,7 +133,7 @@ public class MusicManager
 
         // if there is a music being played, change its volume
         if( musicBeingPlayed != null ) {
-            musicBeingPlayed.setVolume( volume );
+            musicBeingPlayed.getMusicResource().setVolume( volume );
         }
     }
 

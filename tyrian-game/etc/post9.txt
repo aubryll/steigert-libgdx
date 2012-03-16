@@ -1,4 +1,6 @@
- - Ship animation images, indexed file names
- - InputProcessor on the stage
- - LevelManager (Level domain class is now dumber)
  - Removed the preview image from the enumerated items (convention over configuration)
+ - Ship animation images, indexed file names
+ - Android: test on the device; prevent screen from dimming
+ - LevelManager (Level domain class is now dumber)
+ - The Ship2D actor
+ - The coordinate system

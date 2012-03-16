@@ -36,6 +36,12 @@ public enum Shield
         return name;
     }
 
+    @Override
+    public String getSimpleName()
+    {
+        return "shield-" + name().replaceAll( "_", "-" ).toLowerCase();
+    }
+
     public int getPrice()
     {
         return price;

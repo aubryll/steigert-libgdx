@@ -3,107 +3,112 @@ level-screen1.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-ship
+ship-model-usp-talon
   rotate: false
   xy: 0, 0
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
   index: 2
-ship
+ship-model-usp-talon
   rotate: false
   xy: 0, 30
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
   index: 1
-ship
+ship-model-super-carrot
   rotate: false
   xy: 0, 60
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 0
-ship
+  index: 2
+ship-model-super-carrot
   rotate: false
   xy: 0, 90
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 2
-ship
+  index: 1
+ship-model-super-carrot
   rotate: false
   xy: 26, 0
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 1
-ship
+  index: 0
+ship-model-microsol-stalker
   rotate: false
   xy: 52, 0
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 0
-ship
+  index: 2
+ship-model-microsol-stalker
   rotate: false
   xy: 78, 0
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 2
-ship
+  index: 1
+ship-model-microsol-stalker
   rotate: false
   xy: 104, 0
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 1
-ship
+  index: 0
+ship-model-gencore-phoenix
   rotate: false
   xy: 26, 30
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 0
-ship
+  index: 2
+ship-model-gencore-phoenix
   rotate: false
   xy: 26, 60
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 2
-ship
+  index: 1
+ship-model-gencore-phoenix
   rotate: false
   xy: 26, 90
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 1
-ship
+  index: 0
+ship-model-gencore-ii
   rotate: false
   xy: 52, 30
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 0
-ship
+  index: 2
+ship-model-gencore-ii
   rotate: false
   xy: 78, 30
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 2
-ship
+  index: 1
+ship-model-gencore-ii
   rotate: false
   xy: 104, 30
   size: 24, 28
   orig: 24, 28
   offset: 0, 0
-  index: 1
-ship
+  index: 0
+
+level-screen2.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+ship-model-usp-talon
   rotate: false
-  xy: 52, 60
+  xy: 0, 0
   size: 24, 28
   orig: 24, 28
   offset: 0, 0

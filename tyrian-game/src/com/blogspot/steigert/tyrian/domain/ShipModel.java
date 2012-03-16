@@ -36,6 +36,12 @@ public enum ShipModel
         return name;
     }
 
+    @Override
+    public String getSimpleName()
+    {
+        return "ship-model-" + name().replaceAll( "_", "-" ).toLowerCase();
+    }
+
     public int getPrice()
     {
         return price;

@@ -36,6 +36,12 @@ public enum FrontGun
         return name;
     }
 
+    @Override
+    public String getSimpleName()
+    {
+        return "front-gun-" + name().replaceAll( "_", "-" ).toLowerCase();
+    }
+
     public int getPrice()
     {
         return price;

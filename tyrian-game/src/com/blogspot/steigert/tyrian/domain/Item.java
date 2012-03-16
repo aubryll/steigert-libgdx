@@ -11,6 +11,12 @@ public interface Item
     String getName();
 
     /**
+     * Retrieves a simple representation of the item's name, useful for creating
+     * a convention for file names.
+     */
+    String getSimpleName();
+
+    /**
      * Retrieves the price to acquire this item.
      */
     int getPrice();

@@ -1,7 +1,6 @@
 package com.blogspot.steigert.tyrian.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -19,6 +18,7 @@ import com.blogspot.steigert.tyrian.domain.Profile;
 import com.blogspot.steigert.tyrian.domain.Shield;
 import com.blogspot.steigert.tyrian.domain.Ship;
 import com.blogspot.steigert.tyrian.domain.ShipModel;
+import com.blogspot.steigert.tyrian.services.MusicManager.TyrianMusic;
 import com.blogspot.steigert.tyrian.services.SoundManager.TyrianSound;
 
 public class StartGameScreen
@@ -58,6 +58,10 @@ public class StartGameScreen
     public void show()
     {
         super.show();
+
+        // start playing the menu music (the player might be returning from the
+        // level screen)
+        game.getMusicManager().play( TyrianMusic.MENU );
 
         // retrieve the custom skin for our 2D widgets
         Skin skin = super.getSkin();
@@ -157,25 +161,9 @@ public class StartGameScreen
         shieldSelectBox.setSelection( ship.getShield().ordinal() );
 
         // images
-        shipModelImage.setRegion( findRegion( ship.getShipModel() ) );
-        frontGunImage.setRegion( findRegion( ship.getFrontGun() ) );
-        shieldImage.setRegion( findRegion( ship.getShield() ) );
-    }
-
-    private AtlasRegion findRegion(
-        Item item )
-    {
-        String prefix = null;
-        if( item instanceof ShipModel ) {
-            prefix = "ship-model-";
-        } else if( item instanceof FrontGun ) {
-            prefix = "front-gun-";
-        } else if( item instanceof Shield ) {
-            prefix = "shield-";
-        }
-        Enum<?> enumeratedItem = (Enum<?>) item;
-        String imageName = enumeratedItem.name().replaceAll( "_", "-" ).toLowerCase();
-        return getAtlas().findRegion( prefix + imageName );
+        shipModelImage.setRegion( getAtlas().findRegion( ship.getShipModel().getSimpleName() ) );
+        frontGunImage.setRegion( getAtlas().findRegion( ship.getFrontGun().getSimpleName() ) );
+        shieldImage.setRegion( getAtlas().findRegion( ship.getShield().getSimpleName() ) );
     }
 
     /**
