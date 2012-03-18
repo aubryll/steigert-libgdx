@@ -47,7 +47,7 @@ public class MenuScreen
                 float y )
             {
                 game.getSoundManager().play( TyrianSound.CLICK );
-                game.setScreen( game.getStartGameScreen() );
+                game.setScreen( new StartGameScreen( game ) );
             }
         } );
         layout.register( "startGameButton", startGameButton );
@@ -62,7 +62,7 @@ public class MenuScreen
                 float y )
             {
                 game.getSoundManager().play( TyrianSound.CLICK );
-                game.setScreen( game.getOptionsScreen() );
+                game.setScreen( new OptionsScreen( game ) );
             }
         } );
         layout.register( "optionsButton", optionsButton );
@@ -77,7 +77,7 @@ public class MenuScreen
                 float y )
             {
                 game.getSoundManager().play( TyrianSound.CLICK );
-                game.setScreen( game.getHighScoresScreen() );
+                game.setScreen( new HighScoresScreen( game ) );
             }
         } );
         layout.register( "highScoresButton", highScoresButton );

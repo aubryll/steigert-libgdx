@@ -1,6 +1,27 @@
- - Removed the preview image from the enumerated items (convention over configuration)
- - Ship animation images, indexed file names
- - Android: test on the device; prevent screen from dimming
- - LevelManager (Level domain class is now dumber)
- - The Ship2D actor
- - The coordinate system
+#9 - libgdx Tutorial: ?
+
+In this post we will start implementing the levels screen by creating an actor for our ship.
+We'll make it moveable through the keyboard arrows or the device's accelerometer sensor.
+Then we'll detail important concepts and how the affect our game, like the screen's resolution, the
+dimension of certain objects (stage, actors, images) and the coordinate systems.
+
+Important changes
+ - Refactorings:
+   - Removed the preview image's attribute from the enumerated items ShipModel, FrontGun and Shield in favour
+     of a method Item#getSimpleName(). With this method the advantage is that the items don't contain any
+     specific display information anymore. We created a convention to name our image files.
+   - Created the LevelManager in order to make the Level domain class dumber.
+ - Configurations:
+   - Changed the tyrian-android project so that the activity prevents the screen from dimming. This is as simple
+     as adding a flag to the window:
+     <pre>getWindow().addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );</pre>
+     For more details please have a look at the TyrianAndroidLauncher class.
+
+Creating the ship's actor
+With the help of scene2d we'll create the presentation object for our ship, the <b>Ship2D</b> actor. Instead of extending
+Actor we can rather extend Image, saving us many hours. Its dimensions are automatically set based on the texture region's
+dimensions. These are the requirements for the Ship2D actor:
+ - When the ship moves horizontaly it should tilt to the side it's moving.
+ - The ship should not be allowed to go off the screen, but when reaching its edges, a small extra part of the level should be shown.
+ - On the desktop the keyboard should be used to fly the ship. On Android, the accelerometer should be used instead.
+ - The ship's acceleration/deceleration speed should start slow and increase gradually.

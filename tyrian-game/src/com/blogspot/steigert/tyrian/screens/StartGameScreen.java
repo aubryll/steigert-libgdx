@@ -126,7 +126,7 @@ public class StartGameScreen
                 float y )
             {
                 game.getSoundManager().play( TyrianSound.CLICK );
-                game.setScreen( game.getMenuScreen() );
+                game.setScreen( new MenuScreen( game ) );
             }
         } );
         layout.register( "backButton", backButton );
@@ -194,7 +194,7 @@ public class StartGameScreen
             // check the current level ID
             if( profile.getCurrentLevelId() >= targetLevelId ) {
                 Gdx.app.log( Tyrian.LOG, "Starting level: " + targetLevelId );
-                game.setScreen( game.getLevelScreen( targetLevelId ) );
+                game.setScreen( new LevelScreen( game, targetLevelId ) );
             } else {
                 Gdx.app.log( Tyrian.LOG, "Unable to start level: " + targetLevelId );
             }

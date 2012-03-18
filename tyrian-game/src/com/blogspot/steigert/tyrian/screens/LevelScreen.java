@@ -1,7 +1,8 @@
 package com.blogspot.steigert.tyrian.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.OnActionCompleted;
+import com.badlogic.gdx.scenes.scene2d.actions.FadeIn;
 import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.domain.Level;
 import com.blogspot.steigert.tyrian.domain.Profile;
@@ -39,17 +40,18 @@ public class LevelScreen
         // create the ship and add it to the stage
         ship2d = Ship2D.create( profile.getShip(), getAtlas() );
         stage.addActor( ship2d );
-    }
 
-    @Override
-    public void render(
-        float delta )
-    {
-        super.render( delta );
-
-        // return to the menu if the ESC/BACK key is pressed
-        if( Gdx.input.isKeyPressed( Input.Keys.ESCAPE ) || Gdx.input.isKeyPressed( Input.Keys.BACK ) ) {
-            game.setScreen( game.getStartGameScreen() );
-        }
+        // add a fade-in effect to the whole stage
+        stage.getRoot().color.a = 0f;
+        FadeIn fadeInAction = FadeIn.$( 1f );
+        fadeInAction.setCompletionListener( new OnActionCompleted() {
+            @Override
+            public void completed(
+                Action action )
+            {
+                ship2d.setEnabled( true );
+            }
+        } );
+        stage.getRoot().action( fadeInAction );
     }
 }

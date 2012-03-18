@@ -55,7 +55,7 @@ public class SplashScreen
                 Action action )
             {
                 // when the image is faded out, move on to the next screen
-                game.setScreen( game.getMenuScreen() );
+                game.setScreen( new MenuScreen( game ) );
             }
         } );
         splashImage.action( actions );

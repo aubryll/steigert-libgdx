@@ -6,9 +6,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.OnActionCompleted;
-import com.badlogic.gdx.scenes.scene2d.actions.FadeIn;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.blogspot.steigert.tyrian.domain.Ship;
 
@@ -44,6 +41,21 @@ public class Ship2D
         this.touchable = false;
         this.regions = regions;
     }
+
+    // Getters and setters
+
+    public boolean isEnabled()
+    {
+        return enabled;
+    }
+
+    public void setEnabled(
+        boolean enabled )
+    {
+        this.enabled = enabled;
+    }
+
+    // Main operations
 
     @Override
     public void act(
@@ -86,24 +98,8 @@ public class Ship2D
         Ship ship,
         TextureAtlas textureAtlas )
     {
-        // create the actor
         List<AtlasRegion> regions = textureAtlas.findRegions( ship.getShipModel().getSimpleName() );
-        final Ship2D ship2d = new Ship2D( ship, regions );
-
-        // add a fade-in effect; enable the actor when it completes
-        ship2d.color.a = 0f;
-        FadeIn fadeInAction = FadeIn.$( 1f );
-        fadeInAction.setCompletionListener( new OnActionCompleted() {
-            @Override
-            public void completed(
-                Action action )
-            {
-                ship2d.enabled = true;
-            }
-        } );
-        ship2d.action( fadeInAction );
-
-        // return the result
+        Ship2D ship2d = new Ship2D( ship, regions );
         return ship2d;
     }
 }

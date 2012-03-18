@@ -4,13 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.blogspot.steigert.tyrian.screens.HighScoresScreen;
-import com.blogspot.steigert.tyrian.screens.LevelScreen;
-import com.blogspot.steigert.tyrian.screens.LoadSavedGameScreen;
-import com.blogspot.steigert.tyrian.screens.MenuScreen;
-import com.blogspot.steigert.tyrian.screens.OptionsScreen;
 import com.blogspot.steigert.tyrian.screens.SplashScreen;
-import com.blogspot.steigert.tyrian.screens.StartGameScreen;
 import com.blogspot.steigert.tyrian.services.LevelManager;
 import com.blogspot.steigert.tyrian.services.MusicManager;
 import com.blogspot.steigert.tyrian.services.PreferencesManager;
@@ -29,6 +23,10 @@ public class Tyrian
 
     // whether we are in development mode
     public static final boolean DEV_MODE = true;
+
+    // the fixed viewport dimensions (ratio: 1.6)
+    public static final int VIEWPORT_WIDTH = 800;
+    public static final int VIEWPORT_HEIGHT = 480;
 
     // a libgdx helper class that logs the current FPS each second
     private FPSLogger fpsLogger;
@@ -71,44 +69,6 @@ public class Tyrian
         return soundManager;
     }
 
-    // Screen methods
-
-    public SplashScreen getSplashScreen()
-    {
-        return new SplashScreen( this );
-    }
-
-    public HighScoresScreen getHighScoresScreen()
-    {
-        return new HighScoresScreen( this );
-    }
-
-    public LevelScreen getLevelScreen(
-        int targetLevelId )
-    {
-        return new LevelScreen( this, targetLevelId );
-    }
-
-    public LoadSavedGameScreen getLoadSavedGameScreen()
-    {
-        return new LoadSavedGameScreen( this );
-    }
-
-    public MenuScreen getMenuScreen()
-    {
-        return new MenuScreen( this );
-    }
-
-    public OptionsScreen getOptionsScreen()
-    {
-        return new OptionsScreen( this );
-    }
-
-    public StartGameScreen getStartGameScreen()
-    {
-        return new StartGameScreen( this );
-    }
-
     // Game-related methods
 
     @Override
@@ -136,7 +96,7 @@ public class Tyrian
         // create the level manager
         levelManager = new LevelManager();
 
-        // create the FPS logger
+        // create the helper objects
         fpsLogger = new FPSLogger();
     }
 
@@ -151,7 +111,7 @@ public class Tyrian
         // show the splash screen when the game is resized for the first time;
         // this approach avoids calling the screen's resize method repeatedly
         if( getScreen() == null ) {
-            setScreen( getSplashScreen() );
+            setScreen( new SplashScreen( this ) );
         }
     }
 

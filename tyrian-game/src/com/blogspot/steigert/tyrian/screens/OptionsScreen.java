@@ -117,7 +117,7 @@ public class OptionsScreen
                 float y )
             {
                 game.getSoundManager().play( TyrianSound.CLICK );
-                game.setScreen( game.getMenuScreen() );
+                game.setScreen( new MenuScreen( game ) );
             }
         } );
         layout.register( "backButton", backButton );

@@ -30,7 +30,7 @@ public abstract class AbstractScreen
         Tyrian game )
     {
         this.game = game;
-        this.stage = new Stage( 0, 0, true );
+        this.stage = new Stage( Tyrian.VIEWPORT_WIDTH, Tyrian.VIEWPORT_HEIGHT, false );
     }
 
     protected String getName()
@@ -91,9 +91,6 @@ public abstract class AbstractScreen
         int height )
     {
         Gdx.app.log( Tyrian.LOG, "Resizing screen: " + getName() + " to: " + width + " x " + height );
-
-        // resize the stage
-        stage.setViewport( width, height, true );
     }
 
     @Override
