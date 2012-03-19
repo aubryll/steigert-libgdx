@@ -23,6 +23,12 @@ public class MenuScreen
     }
 
     @Override
+    protected boolean useFixedViewportDimensions()
+    {
+        return false;
+    }
+
+    @Override
     public void show()
     {
         super.show();

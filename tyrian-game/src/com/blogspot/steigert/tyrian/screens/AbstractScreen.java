@@ -30,13 +30,27 @@ public abstract class AbstractScreen
         Tyrian game )
     {
         this.game = game;
-        this.stage = new Stage( Tyrian.VIEWPORT_WIDTH, Tyrian.VIEWPORT_HEIGHT, false );
+        this.stage = new Stage( Tyrian.VIEWPORT_WIDTH, Tyrian.VIEWPORT_HEIGHT, true );
     }
 
     protected String getName()
     {
         return getClass().getSimpleName();
     }
+
+    /**
+     * Whether to use the fixed viewport dimensions (
+     * {@link Tyrian#VIEWPORT_WIDTH} and {@link Tyrian#VIEWPORT_HEIGHT}).
+     * <p>
+     * Implementations should return <code>true</code> on resolution-dependent
+     * screens. In this case, the screen will work with a fixed resolution and
+     * later it will be stretched to the actual display's resolution.
+     * <p>
+     * On the other hand, if the screen knows to adjust itself to any given
+     * resolution, this method should return <code>false</code>. It's up to the
+     * implementation to resize its components.
+     */
+    protected abstract boolean useFixedViewportDimensions();
 
     // Lazily loaded collaborators
 
@@ -91,6 +105,11 @@ public abstract class AbstractScreen
         int height )
     {
         Gdx.app.log( Tyrian.LOG, "Resizing screen: " + getName() + " to: " + width + " x " + height );
+
+        // resize the viewport
+        if( ! useFixedViewportDimensions() ) {
+            stage.setViewport( width, height, false );
+        }
     }
 
     @Override

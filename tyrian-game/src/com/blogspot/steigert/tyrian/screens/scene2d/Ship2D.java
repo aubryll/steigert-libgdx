@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input.Peripheral;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.domain.Ship;
 
 /**
@@ -96,6 +97,8 @@ public class Ship2D
         else if( x > stage.width() - width ) x = stage.width() - width;
         if( y < 0 ) y = 0;
         else if( y > stage.height() - height ) y = stage.height() - height;
+
+        //Gdx.app.log( Tyrian.LOG, "Ship2D.x = " + x + ", y = " + y );
     }
 
     /**

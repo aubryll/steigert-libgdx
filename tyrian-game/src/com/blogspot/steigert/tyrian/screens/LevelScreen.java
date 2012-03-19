@@ -30,6 +30,12 @@ public class LevelScreen
     }
 
     @Override
+    protected boolean useFixedViewportDimensions()
+    {
+        return true;
+    }
+
+    @Override
     public void show()
     {
         super.show();

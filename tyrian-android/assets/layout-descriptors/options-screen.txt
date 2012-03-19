@@ -13,4 +13,4 @@ debug
 [volumeSlider] fill:x
 [volumeValue] width:40
 ---
-[backButton] colspan:3 width:300 height:60 spacingTop:30
+[backButton] colspan:3 width:40% maxwidth:250 height:12% maxheight:50 spacingTop:30

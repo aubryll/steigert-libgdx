@@ -55,6 +55,12 @@ public class StartGameScreen
     }
 
     @Override
+    protected boolean useFixedViewportDimensions()
+    {
+        return false;
+    }
+
+    @Override
     public void show()
     {
         super.show();
@@ -68,6 +74,8 @@ public class StartGameScreen
 
         // create the table actor and add it to the stage
         table = new Table( skin );
+        table.width = stage.width();
+        table.height = stage.height();
         stage.addActor( table );
 
         // retrieve the table's layout

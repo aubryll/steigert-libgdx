@@ -14,4 +14,4 @@ debug
 'Episode 3'
 [episode3HighScore]
 ---
-[backButton] colspan:2 width:300 height:60 spacingTop:30
+[backButton] colspan:2 width:40% maxwidth:250 height:12% maxheight:50 spacingTop:30

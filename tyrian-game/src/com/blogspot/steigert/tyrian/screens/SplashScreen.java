@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.actions.Delay;
 import com.badlogic.gdx.scenes.scene2d.actions.FadeIn;
 import com.badlogic.gdx.scenes.scene2d.actions.FadeOut;
 import com.badlogic.gdx.scenes.scene2d.actions.Sequence;
-import com.badlogic.gdx.scenes.scene2d.ui.Align;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Scaling;
 import com.blogspot.steigert.tyrian.Tyrian;
@@ -29,6 +28,12 @@ public class SplashScreen
     }
 
     @Override
+    protected boolean useFixedViewportDimensions()
+    {
+        return true;
+    }
+
+    @Override
     public void show()
     {
         super.show();
@@ -41,7 +46,9 @@ public class SplashScreen
 
         // here we create the splash image actor; its size is set when the
         // resize() method gets called
-        splashImage = new Image( splashRegion, Scaling.stretch, Align.BOTTOM | Align.LEFT );
+        splashImage = new Image( splashRegion, Scaling.stretch );
+        splashImage.width = stage.width();
+        splashImage.height = stage.height();
 
         // this is needed for the fade-in effect to work correctly; we're just
         // making the image completely transparent
@@ -62,20 +69,5 @@ public class SplashScreen
 
         // and finally we add the actor to the stage
         stage.addActor( splashImage );
-    }
-
-    @Override
-    public void resize(
-        int width,
-        int height )
-    {
-        super.resize( width, height );
-
-        // resize the splash image
-        splashImage.width = width;
-        splashImage.height = height;
-
-        // we need a complete redraw
-        splashImage.invalidateHierarchy();
     }
 }
