@@ -30,12 +30,6 @@ public class LevelScreen
     }
 
     @Override
-    protected boolean useFixedViewportDimensions()
-    {
-        return true;
-    }
-
-    @Override
     public void show()
     {
         super.show();
@@ -59,5 +53,20 @@ public class LevelScreen
             }
         } );
         stage.getRoot().action( fadeInAction );
+    }
+
+    @Override
+    public void resize(
+        int width,
+        int height )
+    {
+        super.resize( width, height );
+
+        // resize the viewport to the fixed dimensions (resolution-independent)
+        stage.setViewport( Tyrian.VIEWPORT_WIDTH, Tyrian.VIEWPORT_HEIGHT, true );
+
+        // center the ship on the screen's bottom
+        ship2d.x = ( stage.width() / 2 + ship2d.width / 2 );
+        ship2d.y = ( ship2d.height );
     }
 }

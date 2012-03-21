@@ -28,12 +28,6 @@ public class SplashScreen
     }
 
     @Override
-    protected boolean useFixedViewportDimensions()
-    {
-        return true;
-    }
-
-    @Override
     public void show()
     {
         super.show();
@@ -47,8 +41,6 @@ public class SplashScreen
         // here we create the splash image actor; its size is set when the
         // resize() method gets called
         splashImage = new Image( splashRegion, Scaling.stretch );
-        splashImage.width = stage.width();
-        splashImage.height = stage.height();
 
         // this is needed for the fade-in effect to work correctly; we're just
         // making the image completely transparent
@@ -69,5 +61,17 @@ public class SplashScreen
 
         // and finally we add the actor to the stage
         stage.addActor( splashImage );
+    }
+
+    @Override
+    public void resize(
+        int width,
+        int height )
+    {
+        super.resize( width, height );
+
+        // take the whole screen
+        splashImage.width = stage.width();
+        splashImage.height = stage.height();
     }
 }

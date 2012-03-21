@@ -23,4 +23,4 @@ debug
 'Credits'
 [creditsLabel] colspan:4 fill:x
 ---
-[backButton] colspan:5 width:40% maxwidth:250 height:12% maxheight:50 spacingTop:10
+[backButton] colspan:5 width:40% minwidth:100 maxwidth:250 height:12% minheight:30 maxheight:50 spacingTop:10

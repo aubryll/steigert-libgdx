@@ -55,12 +55,6 @@ public class StartGameScreen
     }
 
     @Override
-    protected boolean useFixedViewportDimensions()
-    {
-        return false;
-    }
-
-    @Override
     public void show()
     {
         super.show();

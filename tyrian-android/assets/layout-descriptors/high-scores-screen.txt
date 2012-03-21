@@ -1,5 +1,5 @@
 debug
-* padding:8
+* padding:4
 |
 | fill:x
 ---
@@ -14,4 +14,4 @@ debug
 'Episode 3'
 [episode3HighScore]
 ---
-[backButton] colspan:2 width:40% maxwidth:250 height:12% maxheight:50 spacingTop:30
+[backButton] colspan:2 width:40% minwidth:100 maxwidth:250 height:12% minheight:30 maxheight:50 spacingTop:20

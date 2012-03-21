@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.blogspot.steigert.tyrian.screens.LevelScreen;
 import com.blogspot.steigert.tyrian.screens.SplashScreen;
 import com.blogspot.steigert.tyrian.services.LevelManager;
 import com.blogspot.steigert.tyrian.services.MusicManager;
