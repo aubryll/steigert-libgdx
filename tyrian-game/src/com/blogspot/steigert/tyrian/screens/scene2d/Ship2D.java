@@ -2,12 +2,20 @@ package com.blogspot.steigert.tyrian.screens.scene2d;
 
 import java.util.List;
 
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.linear.DecompositionSolver;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Peripheral;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.domain.Ship;
 
 /**
@@ -20,12 +28,10 @@ public class Ship2D
     /**
      * The speed's unit is pixels per second.
      */
-    private static final float MAX_MOVE_SPEED = 250;
+    private static final float MAX_MOVE_SPEED = 200;
 
     private final Ship ship;
     private final List<AtlasRegion> regions;
-
-    private boolean enabled;
 
     /**
      * Creates a new {@link Ship2D}.
@@ -41,19 +47,6 @@ public class Ship2D
         this.ship = ship;
         this.touchable = false;
         this.regions = regions;
-    }
-
-    // Getters and setters
-
-    public boolean isEnabled()
-    {
-        return enabled;
-    }
-
-    public void setEnabled(
-        boolean enabled )
-    {
-        this.enabled = enabled;
     }
 
     // Main operations
@@ -75,15 +68,21 @@ public class Ship2D
     private void moveShip(
         float delta )
     {
-        // check the enabled flag
-        if( ! enabled ) return;
+        Gdx.app.log( Tyrian.LOG,
+            String.format( "%f %f %f", Gdx.input.getAccelerometerX(), Gdx.input.getAccelerometerY(), Gdx.input.getAccelerometerZ() ) );
 
         // check the input and move the ship
         if( Gdx.input.isPeripheralAvailable( Peripheral.Accelerometer ) ) {
-            float adjustedMaxSpeed = ( MAX_MOVE_SPEED / 10 );
-            x += Gdx.input.getAccelerometerX() * adjustedMaxSpeed * delta;
-            y += Gdx.input.getAccelerometerY() * adjustedMaxSpeed * delta;
+
+            float accelerometerX = Gdx.input.getAccelerometerX();
+            float adjustedVerticalSpeed = 0f;
+            if( accelerometerX <= 5f ) adjustedVerticalSpeed = MAX_MOVE_SPEED;
+            else if( accelerometerX >= 9f ) adjustedVerticalSpeed = - MAX_MOVE_SPEED;
+            else adjustedVerticalSpeed = ( - 100 * accelerometerX + 700 );
+            y += adjustedVerticalSpeed * delta;
+
         } else {
+            // with the keyboard it's easier
             if( Gdx.input.isKeyPressed( Input.Keys.UP ) ) y += ( MAX_MOVE_SPEED * delta );
             else if( Gdx.input.isKeyPressed( Input.Keys.DOWN ) ) y -= ( MAX_MOVE_SPEED * delta );
             if( Gdx.input.isKeyPressed( Input.Keys.LEFT ) ) x -= ( MAX_MOVE_SPEED * delta );

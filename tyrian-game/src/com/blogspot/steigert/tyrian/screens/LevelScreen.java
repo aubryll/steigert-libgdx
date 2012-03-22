@@ -1,7 +1,5 @@
 package com.blogspot.steigert.tyrian.screens;
 
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.OnActionCompleted;
 import com.badlogic.gdx.scenes.scene2d.actions.FadeIn;
 import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.domain.Level;
@@ -28,7 +26,7 @@ public class LevelScreen
         profile = game.getProfileManager().retrieveProfile();
         level = game.getLevelManager().findLevelById( targetLevelId );
     }
-    
+
     @Override
     protected boolean isGameScreen()
     {
@@ -47,7 +45,7 @@ public class LevelScreen
         ship2d = Ship2D.create( profile.getShip(), getAtlas() );
 
         // center the ship horizontally
-        ship2d.x = ( stage.width() / 2 + ship2d.width / 2 );
+        ship2d.x = ( stage.width() / 2 - ship2d.width / 2 );
         ship2d.y = ( ship2d.height );
 
         // add the ship to the stage
@@ -55,15 +53,6 @@ public class LevelScreen
 
         // add a fade-in effect to the whole stage
         stage.getRoot().color.a = 0f;
-        FadeIn fadeInAction = FadeIn.$( 1f );
-        fadeInAction.setCompletionListener( new OnActionCompleted() {
-            @Override
-            public void completed(
-                Action action )
-            {
-                ship2d.setEnabled( true );
-            }
-        } );
-        stage.getRoot().action( fadeInAction );
+        stage.getRoot().action( FadeIn.$( 0.5f ) );
     }
 }
