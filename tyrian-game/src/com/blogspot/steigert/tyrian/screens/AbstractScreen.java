@@ -18,6 +18,10 @@ public abstract class AbstractScreen
     implements
         Screen
 {
+    // the fixed viewport dimensions (ratio: 1.6)
+    protected static final int GAME_VIEWPORT_WIDTH = 400, GAME_VIEWPORT_HEIGHT = 240;
+    protected static final int MENU_VIEWPORT_WIDTH = 800, MENU_VIEWPORT_HEIGHT = 480;
+
     protected final Tyrian game;
     protected final Stage stage;
 
@@ -30,12 +34,19 @@ public abstract class AbstractScreen
         Tyrian game )
     {
         this.game = game;
-        this.stage = new Stage( 0, 0, true );
+        int width = isGameScreen() ? GAME_VIEWPORT_WIDTH : MENU_VIEWPORT_WIDTH;
+        int height = isGameScreen() ? GAME_VIEWPORT_HEIGHT : MENU_VIEWPORT_HEIGHT;
+        this.stage = new Stage( width, height, true );
     }
 
     protected String getName()
     {
         return getClass().getSimpleName();
+    }
+
+    protected boolean isGameScreen()
+    {
+        return false;
     }
 
     // Lazily loaded collaborators
@@ -91,9 +102,6 @@ public abstract class AbstractScreen
         int height )
     {
         Gdx.app.log( Tyrian.LOG, "Resizing screen: " + getName() + " to: " + width + " x " + height );
-
-        // resize the viewport to match the new dimensions
-        stage.setViewport( width, height, true );
     }
 
     @Override

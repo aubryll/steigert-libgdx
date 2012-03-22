@@ -76,19 +76,4 @@ public class HighScoresScreen
         // finally, parse the layout descriptor
         layout.parse( Gdx.files.internal( "layout-descriptors/high-scores-screen.txt" ).readString() );
     }
-
-    @Override
-    public void resize(
-        int width,
-        int height )
-    {
-        super.resize( width, height );
-
-        // resize the table
-        table.width = width;
-        table.height = height;
-
-        // we need a complete redraw
-        table.invalidateHierarchy();
-    }
 }

@@ -32,6 +32,8 @@ public class MenuScreen
 
         // create the table actor and add it to the stage
         table = new Table( skin );
+        table.width = stage.width();
+        table.height = stage.height();
         stage.addActor( table );
 
         // retrieve the table's layout
@@ -84,20 +86,5 @@ public class MenuScreen
 
         // finally, parse the layout descriptor
         layout.parse( Gdx.files.internal( "layout-descriptors/menu-screen.txt" ).readString() );
-    }
-
-    @Override
-    public void resize(
-        int width,
-        int height )
-    {
-        super.resize( width, height );
-
-        // resize the table
-        table.width = width;
-        table.height = height;
-
-        // we need a complete redraw
-        table.invalidateHierarchy();
     }
 }

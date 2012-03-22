@@ -128,21 +128,6 @@ public class OptionsScreen
         layout.parse( Gdx.files.internal( "layout-descriptors/options-screen.txt" ).readString() );
     }
 
-    @Override
-    public void resize(
-        int width,
-        int height )
-    {
-        super.resize( width, height );
-
-        // resize the table
-        table.width = width;
-        table.height = height;
-
-        // we need a complete redraw
-        table.invalidateHierarchy();
-    }
-
     /**
      * Updates the volume label next to the slider.
      */

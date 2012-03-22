@@ -7,9 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Peripheral;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Align;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.Scaling;
 import com.blogspot.steigert.tyrian.domain.Ship;
 
 /**
@@ -22,7 +20,7 @@ public class Ship2D
     /**
      * The speed's unit is pixels per second.
      */
-    private static final float MAX_MOVE_SPEED = 300;
+    private static final float MAX_MOVE_SPEED = 250;
 
     private final Ship ship;
     private final List<AtlasRegion> regions;
@@ -37,7 +35,7 @@ public class Ship2D
         List<AtlasRegion> regions )
     {
         // the super constructor does a lot of work
-        super( regions.get( 0 ), Scaling.stretch, Align.TOP );
+        super( regions.get( 0 ) );
 
         // set the basic attributes
         this.ship = ship;
@@ -71,9 +69,8 @@ public class Ship2D
     /**
      * Moves the ship around the screen.
      * <p>
-     * Note that the "move speed" is multiplied by the delta time so that the
-     * ship moves the configured amount of pixels independently of the current
-     * FPS output.
+     * Note that the "move speed" is multiplied by the delta time so that the ship moves the configured amount of pixels
+     * independently of the current FPS output.
      */
     private void moveShip(
         float delta )

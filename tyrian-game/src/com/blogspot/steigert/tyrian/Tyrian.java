@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.blogspot.steigert.tyrian.screens.LevelScreen;
 import com.blogspot.steigert.tyrian.screens.SplashScreen;
+import com.blogspot.steigert.tyrian.screens.StartGameScreen;
 import com.blogspot.steigert.tyrian.services.LevelManager;
 import com.blogspot.steigert.tyrian.services.MusicManager;
 import com.blogspot.steigert.tyrian.services.PreferencesManager;
@@ -24,10 +25,6 @@ public class Tyrian
 
     // whether we are in development mode
     public static final boolean DEV_MODE = true;
-
-    // the fixed viewport dimensions (ratio: 1.6)
-    public static final int VIEWPORT_WIDTH = 400;
-    public static final int VIEWPORT_HEIGHT = 240;
 
     // a libgdx helper class that logs the current FPS each second
     private FPSLogger fpsLogger;
@@ -113,7 +110,7 @@ public class Tyrian
         // this approach avoids calling the screen's resize method repeatedly
         if( getScreen() == null ) {
             setScreen( new SplashScreen( this ) );
-            // setScreen( new LevelScreen( this, 0 ) );
+            // setScreen( new StartGameScreen( this ) );
         }
     }
 

@@ -140,21 +140,6 @@ public class StartGameScreen
         updateValues();
     }
 
-    @Override
-    public void resize(
-        int width,
-        int height )
-    {
-        super.resize( width, height );
-
-        // resize the table
-        table.width = width;
-        table.height = height;
-
-        // we need a complete redraw
-        table.invalidateHierarchy();
-    }
-
     private void updateValues()
     {
         // select boxes

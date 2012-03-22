@@ -19,7 +19,7 @@ public class TyrianAndroidLauncher
     {
         super.onCreate( savedInstanceState );
 
-        // prevent the screen from dimming/sleeping
+        // prevent the screen from dimming/sleeping (no permission required)
         getWindow().addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
 
         // whether to use OpenGL ES 2.0
