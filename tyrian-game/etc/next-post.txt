@@ -1,0 +1,22 @@
+#10 - libgdx Tutorial: Keyboard and Accelerometer
+
+Important changes
+ - Updated the <b>ADT Plugin</b> on Eclipse to version 17. It seems that every JAR that's inside the "libs" folder
+   of an Android project is added automatically to its classpath. I also noticed that the <b>tyrian-game</b> was not
+   being sent to the Android device, so the game crashed because of a <b>ClassNotFoundException<b>. This is what I did to
+   fix the problems:
+     1 Removed all the JARs from the classpath manually and let Android reference them through the new
+       "Android Dependencies" classpath item.
+     2 Copied the "gdx.jar" from <b>tyrian-game/libs</b> to <b>tyrian-android/libs</b>.
+     3 Exported the <b>tyrian-game</b> item in <b>Properties > Java Build Path > Order and Export</b> of <b>tyrian-android</b>.
+
+Moving the ship
+
+Using the Keyboard
+
+Using the Accelerometer
+	<uses-feature
+		android:name="android.hardware.sensor.accelerometer"
+		android:required="true" />
+
+Easing the movement

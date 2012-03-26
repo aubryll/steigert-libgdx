@@ -4,8 +4,6 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="libs/gdx-backend-android.jar" sourcepath="etc/gdx-backend-android-sources.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/tyrian-game"/>
-	<classpathentry kind="lib" path="/tyrian-game/libs/gdx.jar" sourcepath="/tyrian-game/etc/gdx-sources.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/tyrian-game"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
