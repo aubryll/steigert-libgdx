@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.domain.Ship;
+import com.blogspot.steigert.tyrian.screens.AbstractScreen;
 
 /**
  * The ship's 2D representation.
@@ -20,9 +21,12 @@ public class Ship2D
 {
     /**
      * The speed's unit is pixels per second.
+     * <p>
+     * The divisor is the time in seconds we want the ship to move between the
+     * edges of the screen.
      */
-    private static final float MAX_MOVE_SPEED = 250;
-    private static final float MAX_MOVE_SPEED_HALF = MAX_MOVE_SPEED / 2;
+    private static final float MAX_HORIZONTAL_SPEED = ( AbstractScreen.GAME_VIEWPORT_WIDTH / 1.5f );
+    private static final float MAX_VERTICAL_SPEED = ( AbstractScreen.GAME_VIEWPORT_HEIGHT / 1.0f );
 
     /**
      * Creates a new {@link Ship2D}.
@@ -73,13 +77,14 @@ public class Ship2D
 
             // output the accelerometer axis
             if( Tyrian.DEV_MODE ) {
-                Gdx.app.log( Tyrian.LOG,
-                    Gdx.input.getAccelerometerX() + " / " + Gdx.input.getAccelerometerY() + " / "
+                Gdx.app.debug( Tyrian.LOG,
+                    Gdx.input.getAccelerometerX() + "," + Gdx.input.getAccelerometerY() + ","
                         + Gdx.input.getAccelerometerZ() );
             }
 
             // x: 4 (back), 2 (still), 0 (forward)
-            // I'll translate these values to: -2, 0, 2
+            // I'll translate the above values to (-2,0,2) so that my next
+            // calculations are simpler
             float adjustedX = ( Gdx.input.getAccelerometerX() - 2f );
             if( adjustedX < - 2f ) adjustedX = - 2f;
             else if( adjustedX > 2f ) adjustedX = 2f;
@@ -89,25 +94,23 @@ public class Ship2D
             if( adjustedY < - 2f ) adjustedY = - 2f;
             else if( adjustedY > 2f ) adjustedY = 2f;
 
-            // the player may be looking down (1) or looking up (2)
-            // 1: standing, sitted, laying down facing down
-            // 2: laying down facing up
-            if( Gdx.input.getAccelerometerZ() > 0 ) {
-                adjustedX = - adjustedX;
-            } else {
-                adjustedY = - adjustedY;
-            }
+            // since 2 is 100% of movement speed, let's calculate the final
+            // speed percentage
+            adjustedX /= 2;
+            adjustedY /= 2;
 
             // notice the inverted axis because the game is displayed in
             // landscape mode
-            x += ( adjustedY * MAX_MOVE_SPEED_HALF * delta );
-            y += ( adjustedX * MAX_MOVE_SPEED_HALF * delta );
+            x += ( adjustedY * MAX_HORIZONTAL_SPEED * delta );
+            y += ( - adjustedX * MAX_VERTICAL_SPEED * delta );
 
         } else {
-            if( Gdx.input.isKeyPressed( Input.Keys.UP ) ) y += ( MAX_MOVE_SPEED * delta );
-            else if( Gdx.input.isKeyPressed( Input.Keys.DOWN ) ) y -= ( MAX_MOVE_SPEED * delta );
-            if( Gdx.input.isKeyPressed( Input.Keys.LEFT ) ) x -= ( MAX_MOVE_SPEED * delta );
-            else if( Gdx.input.isKeyPressed( Input.Keys.RIGHT ) ) x += ( MAX_MOVE_SPEED * delta );
+            if( Gdx.input.isKeyPressed( Input.Keys.UP ) ) y += ( MAX_VERTICAL_SPEED * delta );
+            else if( Gdx.input.isKeyPressed( Input.Keys.DOWN ) )
+                y -= ( MAX_VERTICAL_SPEED * delta );
+            if( Gdx.input.isKeyPressed( Input.Keys.LEFT ) ) x -= ( MAX_HORIZONTAL_SPEED * delta );
+            else if( Gdx.input.isKeyPressed( Input.Keys.RIGHT ) )
+                x += ( MAX_HORIZONTAL_SPEED * delta );
         }
 
         // make sure the ship is inside the stage
