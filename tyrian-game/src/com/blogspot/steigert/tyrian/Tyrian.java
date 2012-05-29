@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.FPSLogger;
+import com.blogspot.steigert.tyrian.screens.LevelScreen;
 import com.blogspot.steigert.tyrian.screens.SplashScreen;
 import com.blogspot.steigert.tyrian.services.LevelManager;
 import com.blogspot.steigert.tyrian.services.MusicManager;
@@ -107,8 +108,11 @@ public class Tyrian
         // show the splash screen when the game is resized for the first time;
         // this approach avoids calling the screen's resize method repeatedly
         if( getScreen() == null ) {
-            setScreen( new SplashScreen(this) );
-            // setScreen( new LevelScreen( this, 0 ) );
+            if( DEV_MODE ) {
+                setScreen( new LevelScreen( this, 0 ) );
+            } else {
+                setScreen( new SplashScreen( this ) );
+            }
         }
     }
 

@@ -45,8 +45,7 @@ public class LevelScreen
         ship2d = Ship2D.create( profile.getShip(), getAtlas() );
 
         // center the ship horizontally
-        ship2d.x = ( stage.width() / 2 - ship2d.width / 2 );
-        ship2d.y = ( ship2d.height );
+        ship2d.setInitialPosition( ( stage.width() / 2 - ship2d.width / 2 ), ship2d.height );
 
         // add the ship to the stage
         stage.addActor( ship2d );
