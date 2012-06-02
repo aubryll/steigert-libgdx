@@ -10,8 +10,6 @@ import java.util.Map;
  * Retrieved from <a href=
  * "http://stackoverflow.com/questions/224868/easy-simple-to-use-lru-cache-in-java"
  * >Stackoverflow</a>.
- * 
- * @author Gustavo Steigert
  */
 public class LRUCache<K, V>
 {
