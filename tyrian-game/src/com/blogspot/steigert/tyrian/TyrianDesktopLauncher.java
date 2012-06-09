@@ -19,8 +19,6 @@ public class TyrianDesktopLauncher
 
         // define the window's size
         int width = 800, height = 480;
-        // int width = 1600, height = 960;
-        // int width = 480, height = 320;
 
         // whether to use OpenGL ES 2.0
         boolean useOpenGLES2 = false;

@@ -30,15 +30,14 @@ public class Ship2D
     /**
      * The ship's maximum acceleration; given in pixels per second².
      */
-    private static final float MAX_ACCELERATION = 8;
+    private static final float MAX_ACCELERATION = 10;
 
     /**
-     * The ship's maximum stop acceleration; given in pixels per second².
+     * The ship's maximum deceleration; given in pixels per second².
      * <p>
-     * This is the force that makes the ship to stop flying when there is no
-     * movement input from the user.
+     * This is the force that makes the ship to stop flying.
      */
-    private static final float MAX_STOP_ACCELERATION = MAX_ACCELERATION / 2;
+    private static final float MAX_DECELERATION = MAX_ACCELERATION / 2;
 
     /**
      * The ship's position.
@@ -146,11 +145,15 @@ public class Ship2D
             acceleration.set( Gdx.input.getAccelerometerY(), Gdx.input.getAccelerometerX() );
 
             // set the acceleration bounds
-            VectorUtils.checkXY( acceleration, - 2, 2 );
+            VectorUtils.adjustByRange( acceleration, - 2, 2 );
 
-            // adjust the acceleration (2 is 100% of the max acceleration)
-            acceleration.x = ( acceleration.x / 2 * MAX_ACCELERATION );
-            acceleration.y = ( - acceleration.y / 2 * MAX_ACCELERATION );
+            // set the input deadzone
+            if( ! VectorUtils.adjustDeadzone( acceleration, 1f, 0f ) ) {
+                // we're out of the deadzone, so let's adjust the acceleration
+                // (2 is 100% of the max acceleration)
+                acceleration.x = ( acceleration.x / 2 * MAX_ACCELERATION );
+                acceleration.y = ( - acceleration.y / 2 * MAX_ACCELERATION );
+            }
 
         } else {
             // notice that when the keys are not pressed, the acceleration will
@@ -161,21 +164,38 @@ public class Ship2D
                 : ( Gdx.input.isKeyPressed( Input.Keys.DOWN ) ? - MAX_ACCELERATION : 0 ) );
         }
 
-        // if there is no acceleration and the ship is moving, let's add an
-        // acceleration that will progressively stop the ship by accelerating in
-        // the opposite velocity's direction
-        if( acceleration.x == 0 && acceleration.y == 0 ) {
-            if( velocity.x != 0 ) {
-                acceleration.x = ( MAX_STOP_ACCELERATION * ( velocity.x > 0 ? - 1 : 1 ) );
+        // if there is no acceleration and the ship is moving, let's calculate
+        // an appropriate deceleration
+        if( acceleration.len() == 0f && velocity.len() > 0f && false ) {
+
+            if( velocity.x > 0 ) {
+                acceleration.x = - MAX_DECELERATION;
+                if( velocity.x - acceleration.x < 0 ) {
+                    acceleration.x = - ( acceleration.x - velocity.x );
+                }
+            } else if( velocity.x < 0 ) {
+                acceleration.x = MAX_DECELERATION;
+                if( velocity.x + acceleration.x > 0 ) {
+                    acceleration.x = ( acceleration.x - velocity.x );
+                }
             }
-            if( velocity.y != 0 ) {
-                acceleration.y = ( MAX_STOP_ACCELERATION * ( velocity.y > 0 ? - 1 : 1 ) );
+
+            if( velocity.y > 0 ) {
+                acceleration.y = - MAX_DECELERATION;
+                if( velocity.y - acceleration.y < 0 ) {
+                    acceleration.y = - ( acceleration.y - velocity.y );
+                }
+            } else if( velocity.y < 0 ) {
+                acceleration.y = MAX_DECELERATION;
+                if( velocity.y + acceleration.y > 0 ) {
+                    acceleration.y = ( acceleration.y - velocity.y );
+                }
             }
         }
 
         // modify and check the ship's velocity
         velocity.add( acceleration );
-        VectorUtils.checkXY( velocity, - MAX_SPEED, MAX_SPEED );
+        VectorUtils.adjustByRange( velocity, - MAX_SPEED, MAX_SPEED );
 
         // modify and check the ship's position, applying the delta parameter
         position.add( velocity.x * delta, velocity.y * delta );
@@ -184,8 +204,9 @@ public class Ship2D
         // ship's position against the stage's dimensions, correcting it if
         // needed and zeroing the velocity, so that the ship stops flying in the
         // current direction
-        if( VectorUtils.checkX( position, 0, ( stage.width() - width ) ) ) velocity.x = 0;
-        if( VectorUtils.checkY( position, 0, ( stage.height() - height ) ) ) velocity.y = 0;
+        if( VectorUtils.adjustByRangeX( position, 0, ( stage.width() - width ) ) ) velocity.x = 0;
+        if( VectorUtils.adjustByRangeY( position, 0, ( stage.height() - height ) ) )
+            velocity.y = 0;
 
         // update the ship's actual position
         x = position.x;

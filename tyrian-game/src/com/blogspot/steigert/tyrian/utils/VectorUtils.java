@@ -11,7 +11,7 @@ public class VectorUtils
      * Returns <code>true</code> if the value was adjusted, <code>false</code>
      * otherwise.
      */
-    public static boolean checkX(
+    public static boolean adjustByRangeX(
         Vector2 vector,
         float min,
         float max )
@@ -33,7 +33,7 @@ public class VectorUtils
      * Returns <code>true</code> if the value was adjusted, <code>false</code>
      * otherwise.
      */
-    public static boolean checkY(
+    public static boolean adjustByRangeY(
         Vector2 vector,
         float min,
         float max )
@@ -55,7 +55,7 @@ public class VectorUtils
      * Returns <code>true</code> if at least one of the values was adjusted,
      * <code>false</code> otherwise.
      */
-    public static boolean checkXY(
+    public static boolean adjustByRange(
         Vector2 vector,
         float xMin,
         float xMax,
@@ -63,8 +63,8 @@ public class VectorUtils
         float yMax )
     {
         boolean modified = false;
-        if( checkX( vector, xMin, xMax ) ) modified = true;
-        if( checkY( vector, yMin, yMax ) ) modified = true;
+        if( adjustByRangeX( vector, xMin, xMax ) ) modified = true;
+        if( adjustByRangeY( vector, yMin, yMax ) ) modified = true;
         return modified;
     }
 
@@ -75,12 +75,29 @@ public class VectorUtils
      * Returns <code>true</code> if at least one of the values was adjusted,
      * <code>false</code> otherwise.
      */
-    public static boolean checkXY(
+    public static boolean adjustByRange(
         Vector2 vector,
         float min,
         float max )
     {
-        return checkXY( vector, min, max, min, max );
+        return adjustByRange( vector, min, max, min, max );
+    }
+
+    /**
+     * Uses the given value when the vector coordinates are less than or equal
+     * to the specified radius value.
+     */
+    public static boolean adjustDeadzone(
+        Vector2 vector,
+        float radius,
+        float adjustedValue )
+    {
+        if( vector.len() <= radius ) {
+            vector.x = adjustedValue;
+            vector.y = adjustedValue;
+            return true;
+        }
+        return false;
     }
 
     static final String TAG = VectorUtils.class.getSimpleName();
