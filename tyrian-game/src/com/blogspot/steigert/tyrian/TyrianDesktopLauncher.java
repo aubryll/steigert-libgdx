@@ -21,7 +21,7 @@ public class TyrianDesktopLauncher
         int width = 800, height = 480;
 
         // whether to use OpenGL ES 2.0
-        boolean useOpenGLES2 = false;
+        boolean useOpenGLES2 = true;
 
         // create the game
         new LwjglApplication( listener, title, width, height, useOpenGLES2 );

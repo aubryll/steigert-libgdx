@@ -152,6 +152,12 @@ public abstract class AbstractScreen
         Gdx.app.log( Tyrian.LOG, "Disposing screen: " + getName() );
 
         // as the collaborators are lazily loaded, they may be null
+
+        // the following call disposes the screen's stage but on my computer it
+        // crashes the game, so I've commented it out; more info can be found
+        // at: http://www.badlogicgames.com/forum/viewtopic.php?f=11&t=3624
+        // stage.dispose();
+
         if( font != null ) font.dispose();
         if( batch != null ) batch.dispose();
         if( skin != null ) skin.dispose();

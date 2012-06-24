@@ -23,7 +23,7 @@ public class TyrianAndroidLauncher
         getWindow().addFlags( WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON );
 
         // whether to use OpenGL ES 2.0
-        boolean useOpenGLES2 = false;
+        boolean useOpenGLES2 = true;
 
         // create the game
         initialize( new Tyrian(), useOpenGLES2 );
