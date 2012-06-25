@@ -60,7 +60,9 @@ public class Ship2D
     private final Animation tiltAnimation;
 
     /**
-     * The ship's tilt animation state time.
+     * The ship's tilt animation's state time.
+     * <p>
+     * With this info we know what frame to show.
      */
     private float tiltAnimationStateTime;
 
@@ -69,10 +71,10 @@ public class Ship2D
      */
     private Ship2D(
         Ship ship,
-        List<AtlasRegion> regions )
+        List<AtlasRegion> tiltAnimationFrames )
     {
         // the super constructor does a lot of work
-        super( regions.get( 0 ) );
+        super( tiltAnimationFrames.get( 0 ) );
 
         // set some basic attributes
         this.touchable = false;
@@ -80,8 +82,9 @@ public class Ship2D
         this.velocity = new Vector2();
         this.acceleration = new Vector2();
 
-        // create the animations
-        tiltAnimation = new Animation( 0.15f, regions );
+        // create the tilt animation (each frame will be shown for 0.15
+        // seconds when the animation is active)
+        this.tiltAnimation = new Animation( 0.15f, tiltAnimationFrames );
     }
 
     /**
@@ -95,10 +98,10 @@ public class Ship2D
         List<AtlasRegion> regions = textureAtlas.findRegions( ship.getShipModel().getSimpleName() );
 
         // we just want the regions that make up an animation, so we should
-        // ignore the regions that have negative index (hence are not part of an
-        // animation);
+        // ignore the regions that have a negative index (hence are not part of
+        // an animation);
         // this is necessary because we use a static ship image in the start
-        // game screen, remember? and that image's name is reused for the images
+        // game screen, and that image's name is reused for the images
         // that compose the ship tilt animation
         Iterator<AtlasRegion> regionIterator = regions.iterator();
         while( regionIterator.hasNext() ) {
@@ -156,8 +159,8 @@ public class Ship2D
             }
 
         } else {
-            // notice that when the keys are not pressed, the acceleration will
-            // be zero, so the ship's velocity won't be affected by it
+            // when the keys aren't pressed the acceleration will be zero, so
+            // the ship's velocity won't be affected by it
             acceleration.x = ( Gdx.input.isKeyPressed( Input.Keys.LEFT ) ? - MAX_ACCELERATION
                 : ( Gdx.input.isKeyPressed( Input.Keys.RIGHT ) ? MAX_ACCELERATION : 0 ) );
             acceleration.y = ( Gdx.input.isKeyPressed( Input.Keys.UP ) ? MAX_ACCELERATION
@@ -166,8 +169,9 @@ public class Ship2D
 
         // if there is no acceleration and the ship is moving, let's calculate
         // an appropriate deceleration
-        if( acceleration.len() == 0f && velocity.len() > 0f && false ) {
+        if( acceleration.len() == 0f && velocity.len() > 0f ) {
 
+            // horizontal deceleration
             if( velocity.x > 0 ) {
                 acceleration.x = - MAX_DECELERATION;
                 if( velocity.x - acceleration.x < 0 ) {
@@ -180,6 +184,7 @@ public class Ship2D
                 }
             }
 
+            // vertical deceleration
             if( velocity.y > 0 ) {
                 acceleration.y = - MAX_DECELERATION;
                 if( velocity.y - acceleration.y < 0 ) {
@@ -191,6 +196,7 @@ public class Ship2D
                     acceleration.y = ( acceleration.y - velocity.y );
                 }
             }
+
         }
 
         // modify and check the ship's velocity
@@ -219,19 +225,16 @@ public class Ship2D
     private void tiltShip(
         float delta )
     {
+        // the animation's frame to be shown
         TextureRegion frame;
 
         // find the appropriate frame of the tilt animation to be drawn
         if( velocity.x < 0 ) {
             frame = tiltAnimation.getKeyFrame( tiltAnimationStateTime += delta, false );
-            if( frame.getRegionWidth() < 0 ) {
-                frame.flip( true, false );
-            }
+            if( frame.getRegionWidth() < 0 ) frame.flip( true, false );
         } else if( velocity.x > 0 ) {
             frame = tiltAnimation.getKeyFrame( tiltAnimationStateTime += delta, false );
-            if( frame.getRegionWidth() > 0 ) {
-                frame.flip( true, false );
-            }
+            if( frame.getRegionWidth() > 0 ) frame.flip( true, false );
         } else {
             tiltAnimationStateTime = 0;
             frame = tiltAnimation.getKeyFrame( 0, false );
