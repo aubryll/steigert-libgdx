@@ -1,6 +1,6 @@
 package com.blogspot.steigert.tyrian.screens;
 
-import com.badlogic.gdx.scenes.scene2d.actions.FadeIn;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.domain.Level;
 import com.blogspot.steigert.tyrian.domain.Profile;
@@ -45,13 +45,14 @@ public class LevelScreen
         ship2d = Ship2D.create( profile.getShip(), getAtlas() );
 
         // center the ship horizontally
-        ship2d.setInitialPosition( ( stage.width() / 2 - ship2d.width / 2 ), ship2d.height );
+        ship2d.setInitialPosition( ( stage.getWidth() / 2 - ship2d.getWidth() / 2 ),
+            ship2d.getHeight() );
 
         // add the ship to the stage
         stage.addActor( ship2d );
 
         // add a fade-in effect to the whole stage
-        stage.getRoot().color.a = 0f;
-        stage.getRoot().action( FadeIn.$( 0.5f ) );
+        stage.getRoot().getColor().a = 0f;
+        stage.getRoot().addAction( Actions.fadeIn( 0.5f ) );
     }
 }

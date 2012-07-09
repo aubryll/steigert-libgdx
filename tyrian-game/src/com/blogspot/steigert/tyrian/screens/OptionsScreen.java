@@ -2,20 +2,18 @@ package com.blogspot.steigert.tyrian.screens;
 
 import java.util.Locale;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ActorEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider.ValueChangedListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.TableLayout;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.services.MusicManager.TyrianMusic;
 import com.blogspot.steigert.tyrian.services.SoundManager.TyrianSound;
+import com.blogspot.steigert.tyrian.utils.DefaultActorListener;
 
 /**
  * A simple options screen.
@@ -24,7 +22,6 @@ public class OptionsScreen
     extends
         AbstractScreen
 {
-    private Table table;
     private Label volumeValue;
 
     public OptionsScreen(
@@ -38,27 +35,20 @@ public class OptionsScreen
     {
         super.show();
 
-        // retrieve the custom skin for our 2D widgets
-        Skin skin = super.getSkin();
-
-        // create the table actor and add it to the stage
-        table = new Table( skin );
-        table.width = stage.width();
-        table.height = stage.height();
-        stage.addActor( table );
-
-        // retrieve the table's layout
-        TableLayout layout = table.getTableLayout();
+        // retrieve the default table actor
+        Table table = super.getTable();
+        table.defaults().spaceBottom( 30 );
+        table.columnDefaults( 0 ).padRight( 20 );
+        table.add( "Options" ).colspan( 3 );
 
         // create the labels widgets
-        final CheckBox soundEffectsCheckbox = new CheckBox( skin );
+        final CheckBox soundEffectsCheckbox = new CheckBox( "", getSkin() );
         soundEffectsCheckbox.setChecked( game.getPreferencesManager().isSoundEnabled() );
-        soundEffectsCheckbox.setClickListener( new ClickListener() {
+        soundEffectsCheckbox.addListener( new ChangeListener() {
             @Override
-            public void click(
-                Actor actor,
-                float x,
-                float y )
+            public void changed(
+                ChangeEvent event,
+                Actor actor )
             {
                 boolean enabled = soundEffectsCheckbox.isChecked();
                 game.getPreferencesManager().setSoundEnabled( enabled );
@@ -66,16 +56,17 @@ public class OptionsScreen
                 game.getSoundManager().play( TyrianSound.CLICK );
             }
         } );
-        layout.register( "soundEffectsCheckbox", soundEffectsCheckbox );
+        table.row();
+        table.add( "Sound Effects" );
+        table.add( soundEffectsCheckbox ).colspan( 2 ).left();
 
-        final CheckBox musicCheckbox = new CheckBox( skin );
+        final CheckBox musicCheckbox = new CheckBox( "", getSkin() );
         musicCheckbox.setChecked( game.getPreferencesManager().isMusicEnabled() );
-        musicCheckbox.setClickListener( new ClickListener() {
+        musicCheckbox.addListener( new ChangeListener() {
             @Override
-            public void click(
-                Actor actor,
-                float x,
-                float y )
+            public void changed(
+                ChangeEvent event,
+                Actor actor )
             {
                 boolean enabled = musicCheckbox.isChecked();
                 game.getPreferencesManager().setMusicEnabled( enabled );
@@ -86,46 +77,55 @@ public class OptionsScreen
                 if( enabled ) game.getMusicManager().play( TyrianMusic.MENU );
             }
         } );
-        layout.register( "musicCheckbox", musicCheckbox );
+        table.row();
+        table.add( "Music" );
+        table.add( musicCheckbox ).colspan( 2 ).left();
 
         // range is [0.0,1.0]; step is 0.1f
-        Slider volumeSlider = new Slider( 0f, 1f, 0.1f, skin );
+        Slider volumeSlider = new Slider( 0f, 1f, 0.1f, getSkin() );
         volumeSlider.setValue( game.getPreferencesManager().getVolume() );
-        volumeSlider.setValueChangedListener( new ValueChangedListener() {
+        volumeSlider.addListener( new ChangeListener() {
             @Override
             public void changed(
-                Slider slider,
-                float value )
+                ChangeEvent event,
+                Actor actor )
             {
+                float value = ( (Slider) actor ).getValue();
                 game.getPreferencesManager().setVolume( value );
                 game.getMusicManager().setVolume( value );
                 game.getSoundManager().setVolume( value );
                 updateVolumeLabel();
             }
         } );
-        layout.register( "volumeSlider", volumeSlider );
 
-        volumeValue = new Label( skin );
+        // create the volume label
+        volumeValue = new Label( "", getSkin() );
         updateVolumeLabel();
-        layout.register( "volumeValue", volumeValue );
+
+        // add the volume row
+        table.row();
+        table.add( "Volume" );
+        table.add( volumeSlider );
+        table.add( volumeValue ).width( 40 );
 
         // register the back button
-        TextButton backButton = new TextButton( "Back to main menu", skin );
-        backButton.setClickListener( new ClickListener() {
+        TextButton backButton = new TextButton( "Back to main menu", getSkin() );
+        backButton.addListener( new DefaultActorListener() {
             @Override
-            public void click(
-                Actor actor,
+            public void touchUp(
+                ActorEvent event,
                 float x,
-                float y )
+                float y,
+                int pointer,
+                int button )
             {
+                super.touchUp( event, x, y, pointer, button );
                 game.getSoundManager().play( TyrianSound.CLICK );
                 game.setScreen( new MenuScreen( game ) );
             }
         } );
-        layout.register( "backButton", backButton );
-
-        // finally, parse the layout descriptor
-        layout.parse( Gdx.files.internal( "layout-descriptors/options-screen.txt" ).readString() );
+        table.row();
+        table.add( backButton ).size( 250, 60 ).colspan( 3 );
     }
 
     /**

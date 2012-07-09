@@ -1,7 +1,7 @@
 package com.blogspot.steigert.tyrian.screens.scene2d;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -12,6 +12,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
 import com.blogspot.steigert.tyrian.domain.Ship;
 import com.blogspot.steigert.tyrian.utils.VectorUtils;
 
@@ -67,17 +70,25 @@ public class Ship2D
     private float tiltAnimationStateTime;
 
     /**
+     * The drawables of the tilt animation.
+     * <p>
+     * Here we cache the drawables or we would have to create them on demand
+     * (hence waking up the garbage collector).
+     */
+    private Map<TextureRegion,Drawable> tiltAnimationDrawables;
+
+    /**
      * Creates a new {@link Ship2D}.
      */
     private Ship2D(
         Ship ship,
-        List<AtlasRegion> tiltAnimationFrames )
+        Array<AtlasRegion> tiltAnimationFrames )
     {
         // the super constructor does a lot of work
         super( tiltAnimationFrames.get( 0 ) );
+        super.setTouchable( false );
 
         // set some basic attributes
-        this.touchable = false;
         this.position = new Vector2();
         this.velocity = new Vector2();
         this.acceleration = new Vector2();
@@ -85,6 +96,12 @@ public class Ship2D
         // create the tilt animation (each frame will be shown for 0.15
         // seconds when the animation is active)
         this.tiltAnimation = new Animation( 0.15f, tiltAnimationFrames );
+
+        // create the tilt animation drawable cache
+        this.tiltAnimationDrawables = new HashMap<TextureRegion,Drawable>();
+        for( AtlasRegion region : tiltAnimationFrames ) {
+            tiltAnimationDrawables.put( region, new TextureRegionDrawable( region ) );
+        }
     }
 
     /**
@@ -95,24 +112,11 @@ public class Ship2D
         TextureAtlas textureAtlas )
     {
         // load all the regions of our ship in the image atlas
-        List<AtlasRegion> regions = textureAtlas.findRegions( ship.getShipModel().getSimpleName() );
+        Array<AtlasRegion> regions = textureAtlas.findRegions( "level-screen/"
+            + ship.getShipModel().getSimpleName() );
 
-        // we just want the regions that make up an animation, so we should
-        // ignore the regions that have a negative index (hence are not part of
-        // an animation);
-        // this is necessary because we use a static ship image in the start
-        // game screen, and that image's name is reused for the images
-        // that compose the ship tilt animation
-        Iterator<AtlasRegion> regionIterator = regions.iterator();
-        while( regionIterator.hasNext() ) {
-            if( regionIterator.next().index < 0 ) {
-                regionIterator.remove();
-            }
-        }
-
-        // finally, create the ship
-        Ship2D ship2d = new Ship2D( ship, regions );
-        return ship2d;
+        // create the ship
+        return new Ship2D( ship, regions );
     }
 
     /**
@@ -210,13 +214,14 @@ public class Ship2D
         // ship's position against the stage's dimensions, correcting it if
         // needed and zeroing the velocity, so that the ship stops flying in the
         // current direction
-        if( VectorUtils.adjustByRangeX( position, 0, ( stage.width() - width ) ) ) velocity.x = 0;
-        if( VectorUtils.adjustByRangeY( position, 0, ( stage.height() - height ) ) )
+        if( VectorUtils.adjustByRangeX( position, 0, ( getStage().getWidth() - getWidth() ) ) )
+            velocity.x = 0;
+        if( VectorUtils.adjustByRangeY( position, 0, ( getStage().getHeight() - getHeight() ) ) )
             velocity.y = 0;
 
         // update the ship's actual position
-        x = position.x;
-        y = position.y;
+        setX( position.x );
+        setY( position.y );
     }
 
     /**
@@ -242,7 +247,7 @@ public class Ship2D
 
         // there is no performance issues when setting the same frame multiple
         // times as the current region (the call will be ignored in this case)
-        setRegion( frame );
+        setDrawable( tiltAnimationDrawables.get( frame ) );
     }
 
     static final String TAG = Ship2D.class.getSimpleName();

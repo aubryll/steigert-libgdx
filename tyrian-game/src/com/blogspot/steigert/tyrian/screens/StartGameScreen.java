@@ -1,16 +1,16 @@
 package com.blogspot.steigert.tyrian.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ActorEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectionListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.tablelayout.TableLayout;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.blogspot.steigert.tyrian.Tyrian;
 import com.blogspot.steigert.tyrian.domain.FrontGun;
 import com.blogspot.steigert.tyrian.domain.Item;
@@ -20,6 +20,7 @@ import com.blogspot.steigert.tyrian.domain.Ship;
 import com.blogspot.steigert.tyrian.domain.ShipModel;
 import com.blogspot.steigert.tyrian.services.MusicManager.TyrianMusic;
 import com.blogspot.steigert.tyrian.services.SoundManager.TyrianSound;
+import com.blogspot.steigert.tyrian.utils.DefaultActorListener;
 
 public class StartGameScreen
     extends
@@ -28,7 +29,6 @@ public class StartGameScreen
     private Profile profile;
     private Ship ship;
 
-    private Table table;
     private TextButton episode1Button;
     private TextButton episode2Button;
     private TextButton episode3Button;
@@ -63,78 +63,83 @@ public class StartGameScreen
         // level screen)
         game.getMusicManager().play( TyrianMusic.MENU );
 
-        // retrieve the custom skin for our 2D widgets
-        Skin skin = super.getSkin();
-
-        // create the table actor and add it to the stage
-        table = new Table( skin );
-        table.width = stage.width();
-        table.height = stage.height();
-        stage.addActor( table );
+        // retrieve the default table actor
+        Table table = super.getTable();
+        table.defaults().spaceBottom( 20 );
+        table.columnDefaults( 0 ).padRight( 20 );
+        table.columnDefaults( 4 ).padLeft( 10 );
+        table.add( "Start Game" ).colspan( 5 );
 
         // retrieve the table's layout
-        TableLayout layout = table.getTableLayout();
         profile = game.getProfileManager().retrieveProfile();
         ship = profile.getShip();
 
         // create the level buttons
-        episode1Button = new TextButton( "Episode 1", skin );
-        episode1Button.setClickListener( levelClickListener );
-        layout.register( "episode1Button", episode1Button );
+        table.row();
+        table.add( "Episodes" );
 
-        episode2Button = new TextButton( "Episode 2", skin );
-        episode2Button.setClickListener( levelClickListener );
-        layout.register( "episode2Button", episode2Button );
+        episode1Button = new TextButton( "Episode 1", getSkin() );
+        episode1Button.addListener( levelClickListener );
+        table.add( episode1Button ).fillX().padRight( 10 );
 
-        episode3Button = new TextButton( "Episode 3", skin );
-        episode3Button.setClickListener( levelClickListener );
-        layout.register( "episode3Button", episode3Button );
+        episode2Button = new TextButton( "Episode 2", getSkin() );
+        episode2Button.addListener( levelClickListener );
+        table.add( episode2Button ).fillX().padRight( 10 );
+
+        episode3Button = new TextButton( "Episode 3", getSkin() );
+        episode3Button.addListener( levelClickListener );
+        table.add( episode3Button ).fillX();
 
         // create the item select boxes
-        shipModelSelectBox = new SelectBox( skin );
-        shipModelSelectBox.setItems( ShipModel.values() );
-        shipModelSelectBox.setSelectionListener( itemSelectionListener );
-        layout.register( "shipModelSelectBox", shipModelSelectBox );
-
-        frontGunSelectBox = new SelectBox( skin );
-        frontGunSelectBox.setItems( FrontGun.values() );
-        frontGunSelectBox.setSelectionListener( itemSelectionListener );
-        layout.register( "frontGunSelectBox", frontGunSelectBox );
-
-        shieldSelectBox = new SelectBox( skin );
-        shieldSelectBox.setItems( Shield.values() );
-        shieldSelectBox.setSelectionListener( itemSelectionListener );
-        layout.register( "shieldSelectBox", shieldSelectBox );
-
-        // create the image placeholders
+        shipModelSelectBox = new SelectBox( ShipModel.values(), getSkin() );
+        shipModelSelectBox.addListener( itemSelectionListener );
         shipModelImage = new Image();
-        layout.register( "shipModelImage", shipModelImage );
+
+        table.row();
+        table.add( "Ship model" );
+        table.add( shipModelSelectBox ).fillX().colspan( 3 );
+        table.add( shipModelImage );
+
+        frontGunSelectBox = new SelectBox( FrontGun.values(), getSkin() );
+        frontGunSelectBox.addListener( itemSelectionListener );
         frontGunImage = new Image();
-        layout.register( "frontGunImage", frontGunImage );
+
+        table.row();
+        table.add( "Front gun" );
+        table.add( frontGunSelectBox ).fillX().colspan( 3 );
+        table.add( frontGunImage );
+
+        shieldSelectBox = new SelectBox( Shield.values(), getSkin() );
+        shieldSelectBox.addListener( itemSelectionListener );
         shieldImage = new Image();
-        layout.register( "shieldImage", shieldImage );
+
+        table.row();
+        table.add( "Shield" );
+        table.add( shieldSelectBox ).fillX().colspan( 3 );
+        table.add( shieldImage );
 
         // create the credits label
-        creditsLabel = new Label( profile.getCreditsAsText(), skin );
-        layout.register( "creditsLabel", creditsLabel );
+        creditsLabel = new Label( profile.getCreditsAsText(), getSkin() );
+        table.row();
+        table.add( "Credits" );
+        table.add( creditsLabel ).left().colspan( 4 );
 
         // register the back button
-        TextButton backButton = new TextButton( "Back to main menu", skin );
-        backButton.setClickListener( new ClickListener() {
-            @Override
-            public void click(
-                Actor actor,
+        TextButton backButton = new TextButton( "Back to main menu", getSkin() );
+        backButton.addListener( new DefaultActorListener() {
+            public void touchUp(
+                ActorEvent event,
                 float x,
-                float y )
+                float y,
+                int pointer,
+                int button )
             {
                 game.getSoundManager().play( TyrianSound.CLICK );
                 game.setScreen( new MenuScreen( game ) );
             }
         } );
-        layout.register( "backButton", backButton );
-
-        // finally, parse the layout descriptor
-        layout.parse( Gdx.files.internal( "layout-descriptors/start-game-screen.txt" ).readString() );
+        table.row();
+        table.add( backButton ).size( 250, 60 ).colspan( 5 );
 
         // set the select boxes' initial values
         updateValues();
@@ -147,35 +152,48 @@ public class StartGameScreen
         frontGunSelectBox.setSelection( ship.getFrontGun().ordinal() );
         shieldSelectBox.setSelection( ship.getShield().ordinal() );
 
+        // drawables
+        String prefix = "start-game-screen/";
+        TextureRegion shipModel = getAtlas().findRegion(
+            prefix + ship.getShipModel().getSimpleName() );
+        TextureRegion frontGun = getAtlas().findRegion( prefix + ship.getFrontGun().getSimpleName() );
+        TextureRegion shield = getAtlas().findRegion( prefix + ship.getShield().getSimpleName() );
+
         // images
-        shipModelImage.setRegion( getAtlas().findRegion( ship.getShipModel().getSimpleName() ) );
-        frontGunImage.setRegion( getAtlas().findRegion( ship.getFrontGun().getSimpleName() ) );
-        shieldImage.setRegion( getAtlas().findRegion( ship.getShield().getSimpleName() ) );
+        shipModelImage.setDrawable( new TextureRegionDrawable( shipModel ) );
+        frontGunImage.setDrawable( new TextureRegionDrawable( frontGun ) );
+        shieldImage.setDrawable( new TextureRegionDrawable( shield ) );
     }
 
     /**
      * Listener for all the level buttons.
      */
     private class LevelClickListener
-        implements
-            ClickListener
+        extends
+            DefaultActorListener
     {
         @Override
-        public void click(
-            Actor actor,
+        public void touchUp(
+            ActorEvent event,
             float x,
-            float y )
+            float y,
+            int pointer,
+            int button )
         {
+            super.touchUp( event, x, y, pointer, button );
             game.getSoundManager().play( TyrianSound.CLICK );
 
             // find the target level ID
             int targetLevelId = - 1;
+            Actor actor = event.getListenerActor();
             if( actor == episode1Button ) {
                 targetLevelId = 0;
             } else if( actor == episode2Button ) {
                 targetLevelId = 1;
             } else if( actor == episode3Button ) {
                 targetLevelId = 2;
+            } else {
+                return;
             }
 
             // check the current level ID
@@ -192,23 +210,25 @@ public class StartGameScreen
      * Listener for all the item select boxes.
      */
     private class ItemSelectionListener
-        implements
-            SelectionListener
+        extends
+            ChangeListener
     {
         @Override
-        public void selected(
-            Actor actor,
-            int index,
-            String value )
+        public void changed(
+            ChangeEvent event,
+            Actor actor )
         {
             // find the selected item
             Item selectedItem = null;
+            int selectedIndex = ( (SelectBox) actor ).getSelectionIndex();
             if( actor == shipModelSelectBox ) {
-                selectedItem = ShipModel.values()[ index ];
+                selectedItem = ShipModel.values()[ selectedIndex ];
             } else if( actor == frontGunSelectBox ) {
-                selectedItem = FrontGun.values()[ index ];
+                selectedItem = FrontGun.values()[ selectedIndex ];
             } else if( actor == shieldSelectBox ) {
-                selectedItem = Shield.values()[ index ];
+                selectedItem = Shield.values()[ selectedIndex ];
+            } else {
+                return;
             }
 
             // if the ship already contains the item, there is no need to buy it

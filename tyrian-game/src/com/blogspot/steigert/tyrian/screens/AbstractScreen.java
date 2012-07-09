@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.blogspot.steigert.tyrian.Tyrian;
 
 /**
@@ -29,6 +30,7 @@ public abstract class AbstractScreen
     private SpriteBatch batch;
     private Skin skin;
     private TextureAtlas atlas;
+    private Table table;
 
     public AbstractScreen(
         Tyrian game )
@@ -70,7 +72,7 @@ public abstract class AbstractScreen
     public TextureAtlas getAtlas()
     {
         if( atlas == null ) {
-            atlas = new TextureAtlas( Gdx.files.internal( "image-atlases/pages-info" ) );
+            atlas = new TextureAtlas( Gdx.files.internal( "image-atlases/pages.atlas" ) );
         }
         return atlas;
     }
@@ -79,10 +81,22 @@ public abstract class AbstractScreen
     {
         if( skin == null ) {
             FileHandle skinFile = Gdx.files.internal( "skin/uiskin.json" );
-            FileHandle textureFile = Gdx.files.internal( "skin/uiskin.png" );
-            skin = new Skin( skinFile, textureFile );
+            skin = new Skin( skinFile );
         }
         return skin;
+    }
+
+    protected Table getTable()
+    {
+        if( table == null ) {
+            table = new Table( getSkin() );
+            table.setFillParent( true );
+            if( Tyrian.DEV_MODE ) {
+                table.debug();
+            }
+            stage.addActor( table );
+        }
+        return table;
     }
 
     // Screen implementation
@@ -121,6 +135,9 @@ public abstract class AbstractScreen
 
         // draw the actors
         stage.draw();
+
+        // draw the table debug lines
+        Table.drawDebug( stage );
     }
 
     @Override
@@ -151,13 +168,12 @@ public abstract class AbstractScreen
     {
         Gdx.app.log( Tyrian.LOG, "Disposing screen: " + getName() );
 
-        // as the collaborators are lazily loaded, they may be null
-
-        // the following call disposes the screen's stage but on my computer it
-        // crashes the game, so I've commented it out; more info can be found
-        // at: http://www.badlogicgames.com/forum/viewtopic.php?f=11&t=3624
+        // the following call disposes the screen's stage, but on my computer it
+        // crashes the game so I commented it out; more info can be found at:
+        // http://www.badlogicgames.com/forum/viewtopic.php?f=11&t=3624
         // stage.dispose();
 
+        // as the collaborators are lazily loaded, they may be null
         if( font != null ) font.dispose();
         if( batch != null ) batch.dispose();
         if( skin != null ) skin.dispose();
